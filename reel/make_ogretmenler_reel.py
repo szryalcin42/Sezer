@@ -46,6 +46,27 @@ WOOD_D = (82, 50, 25)
 # (süre sn, tür)
 SCENES = [(3.6, "hook"), (3.0, "today"), (5.2, "car"), (5.2, "house"),
           (4.4, "delivery"), (5.6, "draw")]
+
+# Dış ses: voice_ogretmen/<sahne_no>.mp3 varsa sahne süresi sese göre uzatılır.
+VOICE_DIR = HERE / "voice_ogretmen"
+VOICE_DELAY = 0.25  # sahne başladıktan sonra sesin girişi (sn)
+
+
+def clip_len(path):
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                        "-of", "csv=p=0", str(path)], capture_output=True, text=True)
+    return float(r.stdout.strip())
+
+
+VOICES = {}
+for _i in range(len(SCENES)):
+    _vp = VOICE_DIR / f"{_i}.mp3"
+    if _vp.exists():
+        VOICES[_i] = _vp
+        _need = VOICE_DELAY + clip_len(_vp) + (1.5 if _i == len(SCENES) - 1 else 0.45)
+        if _need > SCENES[_i][0]:
+            SCENES[_i] = (round(_need, 2), SCENES[_i][1])
+
 starts, _t = [], 0.0
 for d_, _ in SCENES:
     starts.append(_t)
@@ -653,6 +674,22 @@ def make_audio(path, sr=44100):
     out = out * fade
     out = np.tanh(out * 1.4) / np.tanh(1.4)
     out = out / max(1e-6, np.abs(out).max()) * 0.85
+    if VOICES:
+        voice = np.zeros(n)
+        for i, vp in VOICES.items():
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(vp), "-ac", "1", "-ar", str(sr),
+                                  "-f", "f32le", "-"], capture_output=True, check=True).stdout
+            v = np.frombuffer(raw, dtype=np.float32).astype(np.float64)
+            i0 = int((starts[i] + VOICE_DELAY) * sr)
+            v = v[: max(0, n - i0)]
+            voice[i0:i0 + len(v)] += v
+        voice /= max(1e-6, np.abs(voice).max())
+        # müziği konuşma sırasında kıs (ducking)
+        win = int(0.3 * sr)
+        env = np.convolve(np.abs(voice), np.ones(win) / win, mode="same")
+        duck = 1 - 0.65 * np.clip(env * 12, 0, 1)
+        out = out * 0.5 * duck + voice * 0.95
+        out = np.clip(out, -1, 1)
     pcm = (out * 32767).astype(np.int16)
     st = np.stack([pcm, pcm], axis=1)
     with wave.open(str(path), "wb") as w:
