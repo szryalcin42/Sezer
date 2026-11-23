@@ -71,6 +71,26 @@ SCENES = [
 OUTRO_TIPS = ["Taze çekilmiş kahve", "Soğuk su", "Kısık ateş",
               "Karıştırmayı erken bitir", "Kaynatmadan ocaktan al"]
 
+# Dış ses: voice/<sahne_no>.mp3 varsa sahne süresi sese göre uzatılır.
+VOICE_DIR = HERE / "voice"
+VOICE_DELAY = 0.35  # sahne başladıktan sonra sesin girişi (sn)
+
+
+def clip_len(path):
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                        "-of", "csv=p=0", str(path)], capture_output=True, text=True)
+    return float(r.stdout.strip())
+
+
+VOICES = {}
+for i in range(len(SCENES)):
+    vp = VOICE_DIR / f"{i}.mp3"
+    if vp.exists():
+        VOICES[i] = vp
+        need = VOICE_DELAY + clip_len(vp) + (1.4 if i == len(SCENES) - 1 else 0.55)
+        if need > SCENES[i][0]:
+            SCENES[i] = (round(need, 2),) + SCENES[i][1:]
+
 starts, t = [], 0.0
 for s in SCENES:
     starts.append(t)
@@ -466,7 +486,22 @@ def make_audio(path, sr=44100):
         sweep = f0 * (1 + 3 * lt / 0.06)
         out[i0:i0 + L] += 0.06 * np.exp(-lt * 60) * np.sin(2 * np.pi * np.cumsum(sweep) / sr)
     fade = np.minimum(1, tt / 0.5) * np.minimum(1, (TOTAL - tt) / 1.2)
-    out = np.clip(out * fade / max(1e-6, np.abs(out).max()) * 0.8, -1, 1)
+    out = out * fade / max(1e-6, np.abs(out).max()) * 0.8
+    if VOICES:
+        voice = np.zeros(n)
+        for i, vp in VOICES.items():
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(vp), "-ac", "1", "-ar", str(sr),
+                                  "-f", "f32le", "-"], capture_output=True, check=True).stdout
+            v = np.frombuffer(raw, dtype=np.float32).astype(np.float64)
+            i0 = int((starts[i] + VOICE_DELAY) * sr)
+            v = v[: max(0, n - i0)]
+            voice[i0:i0 + len(v)] += v
+        voice /= max(1e-6, np.abs(voice).max())
+        # müziği konuşma sırasında kıs (ducking)
+        env = np.convolve(np.abs(voice), np.ones(int(0.3 * sr)) / int(0.3 * sr), mode="same")
+        duck = 1 - 0.7 * np.clip(env * 12, 0, 1)
+        out = out * 0.45 * duck + voice * 0.95
+    out = np.clip(out, -1, 1)
     pcm = (out * 32767).astype(np.int16)
     st = np.stack([pcm, pcm], axis=1)
     with wave.open(str(path), "wb") as w:
