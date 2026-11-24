@@ -1,11 +1,12 @@
-import numpy as np, math, random, subprocess, os, sys
+import numpy as np, math, random, subprocess, os, sys, json
+C = json.load(open('config.json'))
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W, H, FPS = 1080, 1920, 30
 F = '/usr/share/fonts/truetype/noto/'
 def fnt(n, s): return ImageFont.truetype(F + n, s)
 SERIF_B = 'NotoSerif-Bold.ttf'; SERIF_D = 'NotoSerifDisplay-Bold.ttf'; SANS_B = 'NotoSans-Bold.ttf'; SANS = 'NotoSans-Regular.ttf'
 OUT = os.environ.get('OUT', '.'); TMP = os.environ.get('TMP', '/tmp')
-VO = 0.5  # voice offset
+VO = C['vo']
 CREAM = (243, 232, 208); GOLD = (214, 172, 84); BURG = (140, 28, 36); INK = (45, 26, 16)
 
 def ease_out(x): x = max(0, min(1, x)); return 1 - (1 - x) ** 3
@@ -14,14 +15,9 @@ def ease_back(x):
     return 1 + c3 * (x - 1) ** 3 + c1 * (x - 1) ** 2
 
 # ---------- scenes ----------
-scenes = [  # file, start, end, pan direction, source line
-    ('s1.png', 0.0, 4.6 + VO, (0, -1), 'Kaynak: Halil İnalcık, Devlet-i Aliyye I'),
-    ('s2.png', 4.6 + VO, 12.0 + VO, (1, 0), 'Kaynak: Halil İnalcık, Devlet-i Aliyye I'),
-    ('s3.png', 12.0 + VO, 18.3 + VO, (0, 1), 'Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân'),
-    ('s4.png', 18.3 + VO, 24.45 + VO, (-1, 0), 'Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân'),
-    ('s5.png', 24.45 + VO, 28.4, (0, -1), 'Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân'),
-]
-END_START, TOTAL = 28.4, 32.0
+scenes = [(x['f'], x['a'], x['b'], tuple(x['d']), x['src']) for x in C['scenes']]
+END_START, TOTAL = C['end_start'], C['total']
+LAST = len(scenes) - 1
 XF = 0.5  # crossfade
 SCALE0 = 1.12
 imgs = []
@@ -66,11 +62,11 @@ HEAD = Image.new('RGBA', (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(HEAD)
 text_center(d, 92, 'HANEDAN TARİHİ', fnt(SANS_B, 30), GOLD + (255,), spacing=9)
 d.line([(W / 2 - 150, 142), (W / 2 + 150, 142)], fill=GOLD + (200,), width=2)
 d.polygon([(W / 2, 134), (W / 2 + 8, 142), (W / 2, 150), (W / 2 - 8, 142)], fill=GOLD + (255,))
-text_center(d, 158, 'OSMAN GAZİ', fnt(SERIF_D, 76), CREAM + (255,))
+text_center(d, 158, C['padisah'], fnt(SERIF_D, 76), CREAM + (255,))
 # "BÖLÜM 1/5" pill
-fb = fnt(SANS_B, 34); tw = d.textlength('BÖLÜM 1/5', font=fb)
+fb = fnt(SANS_B, 34); tw = d.textlength(C['bolum'], font=fb)
 d.rounded_rectangle([(W - tw) / 2 - 26, 262, (W + tw) / 2 + 26, 316], radius=27, fill=BURG + (235,), outline=GOLD + (255,), width=2)
-d.text(((W - tw) / 2, 266), 'BÖLÜM 1/5', font=fb, fill=CREAM + (255,))
+d.text(((W - tw) / 2, 266), C['bolum'], font=fb, fill=CREAM + (255,))
 
 def src_layer(txt):
     L = Image.new('RGBA', (W, H), (0, 0, 0, 0)); dd = ImageDraw.Draw(L)
@@ -112,25 +108,12 @@ def make_seal(txt):
     sh = sh.filter(ImageFilter.GaussianBlur(8))
     out = Image.new('RGBA', (S + 20, S + 20), (0, 0, 0, 0)); out.alpha_composite(sh, (12, 14)); out.alpha_composite(im, (0, 0))
     return out
-stamps = [  # text, time, scene index
-    ('600 YIL', 1.44 + VO, 0), ('1243', 4.94 + VO, 1), ('SÖĞÜT', 16.8 + VO, 2), ('OSMAN', 20.72 + VO, 3), ('RÜYA', 25.12 + VO, 4)]
+stamps = [(x[0], x[1] + VO, x[2]) for x in C['stamps']]
 SEALS = [make_seal(s[0]) for s in stamps]
 SEAL_C = (842, 520)
 
 # ---------- subtitles ----------
-subs = [
-    (0.08, 1.40, 'Bu küçük çadırdan,'),
-    (1.44, 4.55, 'altı yüz yıl sürecek bir *imparatorluk* doğacaktı.'),
-    (4.94, 6.50, '*Bin iki yüz kırk üç.*'),
-    (6.56, 9.80, 'Moğollar, *Kösedağ*\'da Selçuklu ordusunu ezdi.'),
-    (9.84, 12.00, 'Anadolu *paramparça* oldu.'),
-    (12.32, 14.20, 'Bizans sınırında, *Kayı* boyundan'),
-    (14.24, 16.76, '*Ertuğrul Gazi*\'nin küçük beyliği vardı:'),
-    (16.80, 18.30, '*Söğüt* ve *Domaniç*.'),
-    (18.48, 21.86, 'Ertuğrul Gazi ölünce, başa oğlu *Osman* geçti.'),
-    (21.88, 24.40, 'Elinde yalnızca *birkaç yüz atlı* vardı.'),
-    (24.70, 27.70, 'Ama bir *rüyası* vardı...'),
-]
+subs = C['subs']
 SF = fnt(SERIF_B, 54)
 def render_sub(txt):
     parts = []; hl = False
@@ -185,28 +168,28 @@ def end_card():
     text_center(dd, 210, 'HANEDAN TARİHİ', fnt(SANS_B, 40), BURG + (255,), spacing=10, shadow=False)
     dd.line([(W / 2 - 180, 280), (W / 2 + 180, 280)], fill=(150, 105, 45, 255), width=2)
     text_center(dd, 400, 'SIRADAKİ BÖLÜM', fnt(SANS_B, 38), (110, 75, 40, 255), spacing=6, shadow=False)
-    text_center(dd, 470, 'OSMAN GAZİ · 2/5', fnt(SERIF_D, 78), INK + (255,), shadow=False)
-    text_center(dd, 580, 'Rüya', fnt(SERIF_D, 110), BURG + (255,), shadow=False)
+    text_center(dd, 470, C['end']['next'], fnt(SERIF_D, 78), INK + (255,), shadow=False)
+    text_center(dd, 580, C['end']['title'], fnt(SERIF_D, 110 if len(C['end']['title']) < 10 else 84), BURG + (255,), shadow=False)
     bx0, by0, bx1, by1 = 110, 830, W - 110, 1240
     dd.rounded_rectangle([bx0, by0, bx1, by1], radius=20, fill=(52, 30, 18, 245), outline=GOLD + (255,), width=3)
     text_center(dd, by0 + 40, 'KAYNAKLAR', fnt(SANS_B, 40), GOLD + (255,), spacing=6, shadow=False)
     f2 = fnt(SANS, 34)
-    items = ['1. Halil İnalcık, Devlet-i Aliyye I', '2. Aşıkpaşazade, Tevârîh-i Âl-i Osmân', '3. Neşrî, Kitâb-ı Cihan-nümâ']
+    items = [f'{k+1}. {x}' for k, x in enumerate(C['end']['sources'])]
     for k, it in enumerate(items): dd.text((bx0 + 50, by0 + 130 + k * 70), it, font=f2, fill=CREAM + (255,))
-    text_center(dd, 1290, 'Rüya sahnesi rivayettir.', fnt(SANS, 32), (110, 75, 40, 255), shadow=False)
+    text_center(dd, 1290, C['end']['note'], fnt(SANS, 32), (110, 75, 40, 255), shadow=False)
     fb2 = fnt(SANS_B, 44); t = 'TAKİP ET'; tw2 = dd.textlength(t, font=fb2)
     dd.rounded_rectangle([(W - tw2) / 2 - 50, 1460, (W + tw2) / 2 + 50, 1550], radius=45, fill=BURG + (255,))
     dd.text(((W - tw2) / 2, 1474), t, font=fb2, fill=CREAM + (255,))
     text_center(dd, 1600, 'Hikâye devam ediyor', fnt(SERIF_B, 40), INK + (255,), shadow=False)
     return im.convert('RGB')
 END = end_card()
-END_SEAL = make_seal('1/5')
+END_SEAL = make_seal(C['seal']).resize((255, 255), Image.LANCZOS)
 
 # ---------- render ----------
 def frame(t):
     if t >= END_START:
         p = (t - END_START) / 0.5
-        last = scene_frame(4, min(t, scenes[4][2]))
+        last = scene_frame(LAST, min(t, scenes[LAST][2]))
         fr = Image.blend(last, END, ease_out(p)) if p < 1 else END.copy()
         fr = fr.convert('RGBA')
         ts = t - (END_START + 0.6)
@@ -214,7 +197,7 @@ def frame(t):
             sc = 1.0 + 0.8 * (1 - ease_out(ts / 0.18)); s = END_SEAL
             if sc != 1: s = s.resize((int(s.width * sc), int(s.height * sc)), Image.BICUBIC)
             if ts < 0.18: s.putalpha(s.split()[3].point(lambda v: int(v * ease_out(ts / 0.18))))
-            fr.alpha_composite(s, (int(W / 2 - s.width / 2 + 330), int(380 - s.height / 2 - 40)))
+            fr.alpha_composite(s, (int(890 - s.width / 2), int(1505 - s.height / 2)))
         return fr.convert('RGB')
     # active scene(s)
     idx = max(i for i, s in enumerate(scenes) if t >= s[1])
@@ -252,32 +235,37 @@ def frame(t):
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'preview':
-        for t in [2.3, 8.0, 17.6, 22.5, 26.0, 30.5]:
+        for t in C['preview']:
             frame(t).save(f'{OUT}/kontrol_{t:.1f}s.jpg', quality=88)
         sys.exit()
     N = int(TOTAL * FPS)
-    p = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
-                          '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p', f'{TMP}/video.mp4'], stdin=subprocess.PIPE)
-    for n in range(N):
-        p.stdin.write(frame(n / FPS).tobytes())
-    p.stdin.close(); p.wait()
+    if sys.argv[1:2] == ['part']:
+        k, m = int(sys.argv[2]), int(sys.argv[3])
+        p = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
+                              '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p', f'/workspace/part{k}.mp4'], stdin=subprocess.PIPE)
+        for n in range(k * N // m, (k + 1) * N // m):
+            p.stdin.write(frame(n / FPS).tobytes())
+        p.stdin.close(); p.wait(); sys.exit()
+    m = int(sys.argv[2]) if sys.argv[1:2] == ['mux'] else 1
+    open('/workspace/parts.txt', 'w').write(''.join(f"file '/workspace/part{k}.mp4'\n" for k in range(m)))
+    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', '/workspace/parts.txt', '-c', 'copy', f'{TMP}/video.mp4'], check=True)
     # audio mix
     st = [int((s[1]) * 1000) for s in stamps] + [int((END_START + 0.6) * 1000)]
     stamp_in = ''.join(f'[4:a]adelay={d}|{d},volume=0.9[st{k}];' for k, d in enumerate(st))
     # need separate input copies for each stamp
-    cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-i', f'{TMP}/video.mp4', '-i', 'in/vo.mp3', '-i', 'in/music.mp3',
-           '-i', 'in/sfx_wind.mp3', '-i', 'in/sfx_cav.mp3', '-i', 'in/sfx_horse.mp3']
+    cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-i', f'{TMP}/video.mp4', '-i', 'in/vo.mp3', '-i', 'in/music.mp3']
+    for x in C['sfx']: cmd += ['-i', 'in/' + x['f']]
     for _ in st: cmd += ['-i', 'in/sfx_stamp.mp3']
     fc = (f'[1:a]adelay={int(VO*1000)}|{int(VO*1000)},volume=1.0[vo];'
-          f'[2:a]atrim=0:{TOTAL},volume=\'if(lt(t,{END_START}),0.16,0.16+0.30*min(1,(t-{END_START})/0.6))\':eval=frame,afade=t=out:st={TOTAL-1.2}:d=1.2[mu];'
-          f'[3:a]volume=0.45,afade=t=in:d=0.4,afade=t=out:st=4.2:d=1.2[wi];'
-          f'[4:a]adelay=5300|5300,volume=0.40,afade=t=out:st=10.5:d=1.5[cv];'
-          f'[5:a]adelay=19000|19000,volume=0.35,afade=t=out:st=23.0:d=1.5[hr];')
-    labels = []
-    for k, d in enumerate(st):
-        fc += f'[{6+k}:a]adelay={d}|{d},volume=0.9[st{k}];'; labels.append(f'[st{k}]')
-    fc += '[vo][mu][wi][cv][hr]' + ''.join(labels) + f'amix=inputs={5+len(st)}:normalize=0:duration=longest,atrim=0:{TOTAL},loudnorm=I=-14:TP=-1.5:LRA=11[a]'
+          f'[2:a]atrim=0:{TOTAL},volume=\'if(lt(t,{END_START}),0.16,0.16+0.30*min(1,(t-{END_START})/0.6))\':eval=frame,afade=t=out:st={TOTAL-1.2}:d=1.2[mu];')
+    labels = ['[vo]', '[mu]']; n = 3
+    for k, x in enumerate(C['sfx']):
+        dl = int(x['at'] * 1000)
+        fc += f"[{n}:a]adelay={dl}|{dl},volume={x['vol']},afade=t=in:st={x['at']}:d=0.3,afade=t=out:st={x['out']}:d=1.2[sx{k}];"; labels.append(f'[sx{k}]'); n += 1
+    for k, dl in enumerate(st):
+        fc += f'[{n}:a]adelay={dl}|{dl},volume=0.9[st{k}];'; labels.append(f'[st{k}]'); n += 1
+    fc += ''.join(labels) + f'amix=inputs={len(labels)}:normalize=0:duration=longest,atrim=0:{TOTAL},loudnorm=I=-14:TP=-1.5:LRA=11[a]'
     cmd += ['-filter_complex', fc, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-t', str(TOTAL),
-            f'{OUT}/HanedanTarihi_OsmanGazi_Bolum1.mp4']
+            f"{OUT}/{C['out']}"]
     subprocess.run(cmd, check=True)
     print('done')

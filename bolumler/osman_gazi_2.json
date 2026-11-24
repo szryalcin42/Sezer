@@ -1,0 +1,44 @@
+{
+  "out": "HanedanTarihi_OsmanGazi_Bolum2.mp4",
+  "padisah": "OSMAN GAZİ",
+  "bolum": "BÖLÜM 2/5",
+  "seal": "2/5",
+  "vo": 0.5,
+  "end_start": 30.8,
+  "total": 34.4,
+  "scenes": [
+    {"f": "s1.png", "a": 0.0, "b": 5.6, "d": [0, -1], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s2.png", "a": 5.6, "b": 9.55, "d": [1, 0], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"},
+    {"f": "s3.png", "a": 9.55, "b": 15.6, "d": [0, 1], "src": "Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s4.png", "a": 15.6, "b": 22.3, "d": [0, -1], "src": "Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s5.png", "a": 22.3, "b": 26.6, "d": [-1, 0], "src": "Rivayet · Kaynak: Neşrî, Kitâb-ı Cihan-nümâ"},
+    {"f": "s6.png", "a": 26.6, "b": 30.8, "d": [1, 0], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"}
+  ],
+  "stamps": [["EFSANE", 3.6, 0], ["EDEBALİ", 6.48, 1], ["RİVAYET", 9.12, 2], ["DEV AĞAÇ", 16.88, 3], ["NİKÂH", 24.16, 4], ["KILIÇ", 28.08, 5]],
+  "subs": [
+    [0.16, 1.76, "Bir gece görülen *rüya*,"],
+    [1.84, 4.88, "altı yüz yıllık bir hanedanın *efsanesi* oldu."],
+    [5.28, 8.80, "Osman Bey, *Şeyh Edebali*'nin dergâhında misafirdi."],
+    [9.12, 10.64, "Rivayete göre o gece,"],
+    [10.68, 12.85, "Edebali'nin göğsünden bir *ay* doğdu"],
+    [13.04, 14.96, "ve Osman'ın göğsüne girdi."],
+    [15.28, 18.40, "Sonra Osman'ın göğsünden dev bir *ağaç* yükseldi."],
+    [18.72, 21.84, "Dalları, *dağları ve denizleri* gölgeledi."],
+    [21.92, 23.85, "Edebali rüyayı *hayra* yordu"],
+    [24.00, 26.10, "ve kızını Osman'la *evlendirdi*."],
+    [26.39, 27.60, "*Rüya* hazırdı."],
+    [27.76, 30.20, "Sıra *kılıçtaydı*..."]
+  ],
+  "end": {
+    "next": "OSMAN GAZİ · 3/5",
+    "title": "Düğün Baskını",
+    "sources": ["Aşıkpaşazade, Tevârîh-i Âl-i Osmân", "Neşrî, Kitâb-ı Cihan-nümâ", "Halil İnalcık, Devlet-i Aliyye I"],
+    "note": "Rüya ve evlilik anlatısı rivayettir."
+  },
+  "sfx": [
+    {"f": "sfx_night.mp3", "at": 0.0, "vol": 0.5, "out": 4.6},
+    {"f": "sfx_shimmer.mp3", "at": 9.6, "vol": 0.5, "out": 13.6},
+    {"f": "sfx_sword.mp3", "at": 28.3, "vol": 0.7, "out": 30.0}
+  ],
+  "preview": [2.6, 7.6, 12.8, 19.5, 25.5, 29.6, 33.4]
+}
