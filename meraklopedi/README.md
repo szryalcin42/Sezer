@@ -11,8 +11,10 @@ Başlıklar Caladea (Bold), metinler Inter. Logo: noktası gezegen olan soru iş
 | `hikaye-kapaklari/` | 6 öne çıkan hikâye kapağı: Tarih, Gizem, Bilim, Gerçekler, Maddeler, Soru-Cevap (1080×1920) |
 | `carousel/madde001/` | Madde 001 · Ölümüne Dans, 6 sayfalık carousel (1080×1350) |
 | `carousel/madde002/` | Madde 002 · Okunamayan Kitap (Voynich), 6 sayfalık carousel |
+| `carousel/madde003/` | Madde 003 · Tarihin En Kısa Savaşı, 6 sayfalık carousel |
 | `reels/madde001/` | Madde 001 Reels videosu (55 sn, 1080×1920), seslendirme kayıtları, çizimler, sahne kartları, altyazı |
 | `reels/madde002/` | Madde 002 Reels videosu (54 sn), senaryo, seslendirme, çizimler, sahne kartları, altyazı |
+| `reels/madde003/` | Madde 003 Reels videosu (25 sn), senaryo ve açıklamalar, seslendirme, çizimler |
 | `reels-kapak/` | Reels kapak şablonu ve Madde 001 kapağı |
 
 ## Yeniden üretmek
@@ -20,7 +22,7 @@ Başlıklar Caladea (Bold), metinler Inter. Logo: noktası gezegen olan soru iş
 Gerekenler: Node.js + Playwright (Chromium), ffmpeg (libass ile), Inter ve Caladea yazı tipleri.
 
 - Profil / hikâye kapakları / carousel: ilgili klasörde `node gen.js`
-- Reels videoları: `reels/madde001/olustur.sh`, `reels/madde002/olustur.sh`
+- Reels videoları: `reels/madde001/olustur.sh`, `reels/madde002/olustur.sh`, `reels/madde003/olustur.sh`
 - Yeni Reels kapağı: `reels-kapak/README.md`
 
 ## Kaynaklar
