@@ -46,7 +46,7 @@ const cards={
  s6c: bgimg('kadin3.png','50% 0','brightness(.28) sepia(.4) saturate(1.3)')+grad+`<div class="c" style="top:600px"><div class="kick">SONUÇ</div><div class="serif gold" style="font-size:130px;line-height:1.05;margin-top:24px">Salgın daha<br>da büyüdü</div></div>`,
  s7a: navy+stars(60,9)+brainSVG()+`<div class="c" style="top:230px"><div class="kick">EN GÜÇLÜ AÇIKLAMA</div><div class="serif gold" style="font-size:84px;line-height:1.1;margin-top:20px">Kitlesel psikojenik<br>hastalık</div></div>`,
  s7b: navy+stars(60,9)+brainSVG()+`<div class="shade" style="background:rgba(5,8,15,.55)"></div><div class="c" style="top:640px"><div class="serif gold" style="font-size:112px;line-height:1.08">Zihin, bütün<br>bir topluluğu<br>ele geçirdi</div></div>`,
- s8: navy+stars(80,21)+`<div class="c" style="top:360px"><img src="${logo}" style="width:300px;height:300px;border-radius:50%"/>
+ s8: navy+stars(80,21)+`<div class="c" style="top:220px"><img src="${logo}" style="width:300px;height:300px;border-radius:50%"/>
    <div class="kick" style="margin-top:50px">MADDE 001</div>
    <div class="serif gold" style="font-size:150px;line-height:1.02;margin-top:30px">Sence ne<br>oldu?</div>
    <div style="font-size:46px;margin-top:50px">Cevabını yorumlara yaz 👇</div>
