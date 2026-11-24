@@ -28,3 +28,11 @@ Gerekenler: Node.js + Playwright (Chromium), ffmpeg (libass ile), Inter ve Calad
 - Seslendirme: ElevenLabs, "Ayaz" sesi (eleven_v4). Videoda `ses/seslendirme_kayit1.mp3` kullanıldı.
 - Çizimler: ElevenLabs üzerinden gpt-image-2.5 ile üretildi (`reels/madde001/cizimler/`).
 - Madde 001 kaynağı: John Waller, *A Time to Dance, a Time to Die* (2008).
+
+## Reels kuralları (Madde 003'ten itibaren)
+
+- **Süre: en fazla 25 saniye.** (Madde 001 ve 002 yaklaşık 55 saniye.)
+- Seslendirme metni yaklaşık 55–60 kelime: kanca (1 cümle) → olay (2 cümle) → şaşırtıcı detay (1–2 cümle) → kapanış sorusu.
+- 5 sahne: 4 çizim ve 1 kapanış kartı. Her sahne 4–6 saniye.
+- Altyazılar ve kart yazıları yukarıda, Instagram arayüzünün üstünde kalır. Kart yazıları 1200. pikselden aşağı inmez.
+- Ayrıntılar carousel'de anlatılır, Reels açıklamasında carousel'e yönlendirilir.
