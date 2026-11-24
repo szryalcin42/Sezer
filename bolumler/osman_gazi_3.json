@@ -1,0 +1,38 @@
+{
+  "out": "HanedanTarihi_OsmanGazi_Bolum3.mp4", "padisah": "OSMAN GAZİ", "bolum": "BÖLÜM 3/5", "seal": "3/5", "vo": 0.4, "end_start": 34.6, "total": 38.2,
+  "scenes": [
+    {"f": "s1.png", "a": 0.0, "b": 5.45, "d": [0, -1], "src": "Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s2.png", "a": 5.45, "b": 8.15, "d": [1, 0], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s3.png", "a": 8.15, "b": 13.25, "d": [0, 1], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s4.png", "a": 13.25, "b": 22.7, "d": [-1, 0], "src": "Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s5.png", "a": 22.7, "b": 27.7, "d": [0, -1], "src": "Kaynak: Neşrî, Kitâb-ı Cihan-nümâ"},
+    {"f": "s6.png", "a": 27.7, "b": 34.6, "d": [1, 0], "src": "Geleneksel kuruluş tarihi · Kaynak: Halil İnalcık, Devlet-i Aliyye I"}
+  ],
+  "stamps": [["TUZAK", 3.8, 0], ["İLK FETİH", 6.32, 1], ["BİLECİK", 9.44, 2], ["RİVAYET", 12.96, 3], ["NİLÜFER", 24.72, 4], ["1299", 27.36, 5]],
+  "subs": [
+    [0.16, 2.32, "Gelin alayının arabaları *kaleye* girdi."],
+    [2.56, 4.84, "Ama peçelerin altından *askerler* çıktı."],
+    [5.33, 7.56, "Osman Bey önce *Karacahisar*'ı aldı."],
+    [7.84, 9.20, "Sonra bir haber geldi:"],
+    [9.44, 12.64, "*Bilecik tekfuru*, bir düğünde onu tuzağa düşürecekti."],
+    [12.96, 15.28, "Rivayete göre Osman, *kadın kılığındaki*"],
+    [15.40, 18.04, "askerlerini erzak arabalarıyla kaleye soktu."],
+    [18.32, 20.72, "*Bilecik* ve *Yarhisar* aynı gece düştü,"],
+    [20.80, 22.16, "ardından *İnegöl*."],
+    [22.40, 24.60, "Yarhisar tekfurunun kızı *Holofira*,"],
+    [24.72, 27.28, "*Nilüfer Hatun* adıyla Orhan'la evlendi."],
+    [27.36, 29.04, "*Bin iki yüz doksan dokuz.*"],
+    [29.12, 30.80, "Beylik, *devlete* dönüşüyordu."],
+    [31.35, 33.90, "Ama *Bizans* susmayacaktı..."]
+  ],
+  "end": {"next": "OSMAN GAZİ · 4/5", "title": "Koyunhisar 1302",
+    "sources": ["Aşıkpaşazade, Tevârîh-i Âl-i Osmân", "Neşrî, Kitâb-ı Cihan-nümâ", "Halil İnalcık, Devlet-i Aliyye I"],
+    "note": "Baskın rivayettir · 1299 geleneksel tarihtir."},
+  "sfx": [
+    {"f": "sfx_wedding.mp3", "at": 0.0, "vol": 0.55, "out": 4.4},
+    {"f": "sfx_raid.mp3", "at": 13.3, "vol": 0.45, "out": 21.0},
+    {"f": "sfx_horse.mp3", "at": 27.8, "vol": 0.35, "out": 31.5},
+    {"f": "sfx_cav.mp3", "at": 31.4, "vol": 0.3, "out": 35.5}
+  ],
+  "preview": [3.0, 7.0, 11.0, 17.0, 25.5, 32.0, 37.0]
+}

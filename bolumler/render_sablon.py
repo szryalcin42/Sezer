@@ -35,6 +35,7 @@ def scene_frame(i, t):
     cw = min(cw, im.width); ch = min(ch, im.height)
     mx, my = (im.width - cw) / 2, (im.height - ch) / 2
     cx = mx + dx * mx * (p - 0.5) * 1.6; cy = my + dy * my * (p - 0.5) * 1.6
+    cx = min(max(cx, 0), im.width - cw); cy = min(max(cy, 0), im.height - ch)
     return im.resize((W, H), Image.BICUBIC, box=(cx, cy, cx + cw, cy + ch))
 
 # ---------- static overlays ----------
