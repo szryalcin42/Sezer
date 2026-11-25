@@ -134,7 +134,7 @@ def render_sub(txt):
     maxw = 860; lines = [[]]; cw = 0
     for w in words:
         ww = dummy.textlength(w[0], font=SF)
-        if lines[-1] and cw + ww > maxw: lines.append([]); cw = 0
+        if lines[-1] and cw + ww > maxw and lines[-1][-1][2]: lines.append([]); cw = 0
         lines[-1].append(w); cw += ww + (sp if w[2] else 0)
     lh = 72; bw = max(sum(dummy.textlength(w[0], font=SF) + (sp if w[2] else 0) for w in ln) for ln in lines) + 80
     bh = lh * len(lines) + 46
