@@ -1,0 +1,35 @@
+{
+  "out": "HanedanTarihi_OrhanGazi_Bolum1.mp4", "padisah": "ORHAN GAZİ", "bolum": "BÖLÜM 1/5", "seal": "1/5", "vo": 0.4, "end_start": 28.6, "total": 32.2,
+  "accent": [28, 52, 110], "seal_rgb": [30, 60, 125],
+  "scenes": [
+    {"f": "s1.png", "a": 0.0, "b": 6.0, "d": [0, -1], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s2.png", "a": 6.0, "b": 9.6, "d": [1, 0], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"},
+    {"f": "s3.png", "a": 9.6, "b": 17.25, "d": [0, 1], "src": "Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s4.png", "a": 17.25, "b": 19.55, "d": [-1, 0], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"},
+    {"f": "s5.png", "a": 19.55, "b": 23.15, "d": [0, -1], "src": "Kaynak: Şevket Pamuk, Osmanlı İmparatorluğu'nda Paranın Tarihi"},
+    {"f": "s6.png", "a": 23.15, "b": 28.6, "d": [1, 0], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"}
+  ],
+  "stamps": [["MİRAS", 1.2, 0], ["ORHAN", 8.0, 1], ["RİVAYET", 9.28, 2], ["BAŞKENT", 18.0, 3], ["AKÇE", 21.36, 4], ["İZNİK", 26.4, 5]],
+  "subs": [
+    [0.08, 2.24, "Babası ona bir *beylik* bıraktı."],
+    [2.48, 5.28, "O ise bu beyliği bir *devlete* dönüştürdü."],
+    [5.81, 9.00, "Osman Gazi'nin ölümüyle başa oğlu *Orhan* geçti."],
+    [9.28, 12.88, "Rivayete göre kardeşi *Alaeddin* tahtta hak iddia etmedi."],
+    [13.12, 16.72, "Orhan'a, devleti nasıl yöneteceğine dair *öğütler* verdi."],
+    [16.96, 19.00, "Orhan, *Bursa*'yı başkent yaptı."],
+    [19.20, 22.52, "Kendi adına, ilk Osmanlı gümüş *akçesini* bastırdı."],
+    [22.87, 26.16, "Ama gözü, Bizans'ın bir başka büyük şehrindeydi:"],
+    [26.40, 28.40, "*İznik...*"]
+  ],
+  "end": {"next": "ORHAN GAZİ · 2/5", "title": "Pelekanon 1329",
+    "sources": ["Aşıkpaşazade, Tevârîh-i Âl-i Osmân", "Halil İnalcık, Devlet-i Aliyye I", "Şevket Pamuk, Paranın Tarihi"],
+    "note": "Alaeddin anlatısı rivayettir."},
+  "sfx": [
+    {"f": "sfx_wind.mp3", "at": 0.0, "vol": 0.4, "out": 5.0},
+    {"f": "sfx_gate.mp3", "at": 6.0, "vol": 0.45, "out": 9.0},
+    {"f": "sfx_bazaar.mp3", "at": 17.3, "vol": 0.5, "out": 19.0},
+    {"f": "sfx_coin.mp3", "at": 19.6, "vol": 0.6, "out": 22.6},
+    {"f": "sfx_horse.mp3", "at": 23.2, "vol": 0.3, "out": 27.0}
+  ],
+  "preview": [3.0, 8.5, 14.0, 18.5, 21.5, 26.8, 31.0]
+}

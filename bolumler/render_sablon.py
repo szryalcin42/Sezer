@@ -7,7 +7,7 @@ def fnt(n, s): return ImageFont.truetype(F + n, s)
 SERIF_B = 'NotoSerif-Bold.ttf'; SERIF_D = 'NotoSerifDisplay-Bold.ttf'; SANS_B = 'NotoSans-Bold.ttf'; SANS = 'NotoSans-Regular.ttf'
 OUT = os.environ.get('OUT', '.'); TMP = os.environ.get('TMP', '/tmp')
 VO = C['vo']
-CREAM = (243, 232, 208); GOLD = (214, 172, 84); BURG = (140, 28, 36); INK = (45, 26, 16)
+CREAM = (243, 232, 208); GOLD = (214, 172, 84); BURG = tuple(C.get('accent', (140, 28, 36))); SEALC = tuple(C.get('seal_rgb', (150, 26, 32))); SEALD = tuple(int(v * 0.68) for v in SEALC); SEALL = tuple(min(255, int(v * 1.25 + 40)) for v in SEALC); SEALS_ = tuple(int(v * 0.55) for v in SEALC); INK = (45, 26, 16)
 
 def ease_out(x): x = max(0, min(1, x)); return 1 - (1 - x) ** 3
 def ease_back(x):
@@ -93,16 +93,16 @@ def make_seal(txt):
     for k in range(48):
         a = 2 * math.pi * k / 48; rr = 128 + rnd.uniform(-9, 9)
         pts.append((c + rr * math.cos(a), c + rr * math.sin(a)))
-    dd.polygon(pts, fill=(150, 26, 32, 255))
-    dd.ellipse([c - 104, c - 104, c + 104, c + 104], outline=(105, 14, 20, 255), width=6)
-    dd.ellipse([c - 92, c - 92, c + 92, c + 92], outline=(190, 70, 70, 140), width=2)
+    dd.polygon(pts, fill=SEALC + (255,))
+    dd.ellipse([c - 104, c - 104, c + 104, c + 104], outline=SEALD + (255,), width=6)
+    dd.ellipse([c - 92, c - 92, c + 92, c + 92], outline=SEALL + (140,), width=2)
     size = 64
     while True:
         fn = fnt(SERIF_B, size); tw = dd.textlength(txt, font=fn)
         if tw <= 160 or size <= 30: break
         size -= 2
     bb = dd.textbbox((0, 0), txt, font=fn); th = bb[3] - bb[1]
-    dd.text((c - tw / 2 + 2, c - th / 2 - bb[1] + 3), txt, font=fn, fill=(90, 10, 15, 255))
+    dd.text((c - tw / 2 + 2, c - th / 2 - bb[1] + 3), txt, font=fn, fill=SEALS_ + (255,))
     dd.text((c - tw / 2, c - th / 2 - bb[1]), txt, font=fn, fill=(250, 228, 190, 255))
     im = im.rotate(-9, resample=Image.BICUBIC)
     sh = Image.new('RGBA', (S, S), (0, 0, 0, 0)); sh.putalpha(im.split()[3].point(lambda v: v * 0.5))
