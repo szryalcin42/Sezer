@@ -13,10 +13,12 @@ Başlıklar Caladea (Bold), metinler Inter. Logo: noktası gezegen olan soru iş
 | `carousel/madde002/` | Madde 002 · Okunamayan Kitap (Voynich), 6 sayfalık carousel |
 | `carousel/madde003/` | Madde 003 · Tarihin En Kısa Savaşı, 6 sayfalık carousel |
 | `carousel/madde004/` | Madde 004 · Dyatlov Geçidi Olayı, 6 sayfalık carousel |
+| `carousel/madde005/` | Madde 005 · Bal Neden Bozulmaz?, 6 sayfalık carousel |
 | `reels/madde001/` | Madde 001 Reels videosu (55 sn, 1080×1920), seslendirme kayıtları, çizimler, sahne kartları, altyazı |
 | `reels/madde002/` | Madde 002 Reels videosu (54 sn), senaryo, seslendirme, çizimler, sahne kartları, altyazı |
 | `reels/madde003/` | Madde 003 Reels videosu (25 sn), senaryo ve açıklamalar, seslendirme, çizimler |
 | `reels/madde004/` | Madde 004 Reels videosu (25 sn), senaryo ve açıklama, seslendirme, çizimler |
+| `reels/madde005/` | Madde 005 Reels videosu (23 sn, yağlı boya), senaryo ve açıklama, seslendirme, çizimler |
 | `reels-kapak/` | Reels kapak şablonu ve Madde 001 kapağı |
 
 ## Yeniden üretmek
@@ -24,7 +26,7 @@ Başlıklar Caladea (Bold), metinler Inter. Logo: noktası gezegen olan soru iş
 Gerekenler: Node.js + Playwright (Chromium), ffmpeg (libass ile), Inter ve Caladea yazı tipleri.
 
 - Profil / hikâye kapakları / carousel: ilgili klasörde `node gen.js`
-- Reels videoları: `reels/madde001/olustur.sh`, `reels/madde002/olustur.sh`, `reels/madde003/olustur.sh`, `reels/madde004/olustur.sh`
+- Reels videoları: `reels/madde001/olustur.sh`, `reels/madde002/olustur.sh`, `reels/madde003/olustur.sh`, `reels/madde004/olustur.sh`, `reels/madde005/olustur.sh`
 - Yeni Reels kapağı: `reels-kapak/README.md`
 
 ## Kaynaklar
@@ -40,3 +42,11 @@ Gerekenler: Node.js + Playwright (Chromium), ffmpeg (libass ile), Inter ve Calad
 - 5 sahne: 4 çizim ve 1 kapanış kartı. Her sahne 4–6 saniye.
 - Altyazılar ve kart yazıları yukarıda, Instagram arayüzünün üstünde kalır. Kart yazıları 1200. pikselden aşağı inmez.
 - Ayrıntılar carousel'de anlatılır, Reels açıklamasında carousel'e yönlendirilir.
+
+## Erişim kuralları (Madde 005'ten itibaren)
+
+- Video siyah ekrandan açılmaz; ilk kare en çarpıcı çizimdir.
+- İlk karede, ekranın üst yarısında büyük kanca yazısı olur. İlk sahnede seri etiketi (MERAKLOPEDİ · MADDE) gösterilmez.
+- Kapanış kartı en fazla 3 saniye; "Bunu ... birine gönder 📩" çağrısı içerir.
+- Açıklamanın ilk satırında aranabilir ifade, sonunda gönder çağrısı ve en fazla 5 hashtag olur.
+- Stil denemesi: Madde 005 yağlı boya. İzlenmeler gravür Maddeleriyle karşılaştırılacak.

@@ -8,8 +8,8 @@ Kategoriler dönüşümlü sıralandı: aynı türden iki konu art arda gelmez. 
 | 002 | Voynich El Yazması | Gizem · Bilim | "Bu kitap 600 yıllık. Ve dünyada hiç kimse onu okuyamıyor." | ✅ Hazır |
 | 003 | Tarihin en kısa savaşı (İngiltere–Zanzibar, 1896) | Tarih · Gerçek | "Tarihin en kısa savaşı 40 dakikadan kısa sürdü." | ✅ Hazır |
 | 004 | Dyatlov Geçidi Olayı (1959) | Gizem | "Dokuz dağcı, çadırlarını içeriden keserek karlı geceye kaçtı." | ✅ Hazır |
-| 005 | Bal neden bozulmaz? | Bilim · Gerçek | "Mutfağındaki bal, sen yaşlandığında bile bozulmamış olabilir." | Sırada |
-| 006 | Göbeklitepe | Tarih | "Bu tapınak, Stonehenge'den 6.000 yıl daha eski. Ve Şanlıurfa'da." | |
+| 005 | Bal neden bozulmaz? | Bilim · Gerçek | "Mutfağındaki bal, sen yaşlandığında bile bozulmamış olabilir." | ✅ Hazır |
+| 006 | Göbeklitepe | Tarih | "Bu tapınak, Stonehenge'den 6.000 yıl daha eski. Ve Şanlıurfa'da." | Sırada |
 | 007 | Tunguska Patlaması (1908) | Gizem · Bilim | "1908'de Sibirya'da 80 milyon ağaç bir anda devrildi. Ama ortada krater yoktu." | |
 | 008 | Ahtapotun 3 kalbi ve mavi kanı | Gerçek · Bilim | "Ahtapotun üç kalbi var. Ve kanı mavi." | |
 | 009 | Kleopatra, piramitlerden çok Ay'a inişe yakın | Tarih · Gerçek | "Kleopatra, piramitlerin yapımından çok Ay'a inişe yakın bir zamanda yaşadı." | |
