@@ -168,7 +168,7 @@ def end_card():
     dd.rectangle([56, 56, W - 56, H - 56], outline=(150, 105, 45, 160), width=1)
     text_center(dd, 210, 'HANEDAN TARİHİ', fnt(SANS_B, 40), BURG + (255,), spacing=10, shadow=False)
     dd.line([(W / 2 - 180, 280), (W / 2 + 180, 280)], fill=(150, 105, 45, 255), width=2)
-    text_center(dd, 400, 'SIRADAKİ BÖLÜM', fnt(SANS_B, 38), (110, 75, 40, 255), spacing=6, shadow=False)
+    text_center(dd, 400, C['end'].get('label', 'SIRADAKİ BÖLÜM'), fnt(SANS_B, 38), (110, 75, 40, 255), spacing=6, shadow=False)
     text_center(dd, 470, C['end']['next'], fnt(SERIF_D, 78), INK + (255,), shadow=False)
     text_center(dd, 580, C['end']['title'], fnt(SERIF_D, 110 if len(C['end']['title']) < 10 else 84), BURG + (255,), shadow=False)
     bx0, by0, bx1, by1 = 110, 830, W - 110, 1240

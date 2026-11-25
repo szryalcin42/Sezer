@@ -1,0 +1,38 @@
+{
+  "out": "HanedanTarihi_OsmanGazi_Bolum5_Final.mp4", "padisah": "OSMAN GAZİ", "bolum": "BÖLÜM 5/5 · FİNAL", "seal": "FİNAL", "vo": 0.4, "end_start": 34.0, "total": 38.0,
+  "scenes": [
+    {"f": "s1.png", "a": 0.0, "b": 5.85, "d": [0, -1], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s2.png", "a": 5.85, "b": 12.3, "d": [1, 0], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"},
+    {"f": "s3.png", "a": 12.3, "b": 15.8, "d": [-1, 0], "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s4.png", "a": 15.8, "b": 21.8, "d": [0, 1], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"},
+    {"f": "s5.png", "a": 21.8, "b": 27.05, "d": [1, 0], "src": "Rivayet · Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân"},
+    {"f": "s6.png", "a": 27.05, "b": 34.0, "d": [0, -1], "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I"}
+  ],
+  "stamps": [["BURSA", 1.12, 0], ["KUŞATMA", 7.68, 1], ["ORHAN", 14.32, 2], ["1326", 15.52, 3], ["VASİYET", 22.4, 4], ["FİNAL", 30.96, 5]],
+  "subs": [
+    [0.08, 2.16, "Hayatı boyunca bir *şehri* istedi."],
+    [2.40, 5.20, "Ama o şehri fethetmek, *oğluna* kaldı."],
+    [5.60, 8.48, "Osman Bey, *Bursa*'yı yıllarca kuşattı."],
+    [8.72, 11.80, "Şehrin çevresine *kaleler* kurdu, yollarını kesti."],
+    [12.00, 12.96, "Ama *hastalandı*."],
+    [13.36, 15.12, "Komutayı oğlu *Orhan*'a bıraktı."],
+    [15.52, 16.96, "*Bin üç yüz yirmi altı.*"],
+    [17.04, 18.52, "*Bursa* teslim oldu."],
+    [18.96, 21.32, "Osman'ın ölüm tarihi ise *tartışmalı*."],
+    [21.52, 23.36, "Rivayete göre vasiyeti şuydu:"],
+    [23.92, 26.48, "\"Beni Bursa'da, *Gümüşlü Kümbet*'e gömün.\""],
+    [26.79, 28.40, "*Birkaç yüz atlıyla* başladı."],
+    [28.80, 32.60, "Geride, *altı yüz yıl* sürecek bir devlet bıraktı."]
+  ],
+  "end": {"label": "SIRADAKİ PADİŞAH", "next": "ORHAN GAZİ · 1/5", "title": "Babadan Oğula",
+    "sources": ["Aşıkpaşazade, Tevârîh-i Âl-i Osmân", "Halil İnalcık, Devlet-i Aliyye I", "Neşrî, Kitâb-ı Cihan-nümâ"],
+    "note": "Ölüm tarihi tartışmalı (1324-1326) · Vasiyet rivayettir."},
+  "sfx": [
+    {"f": "sfx_wind.mp3", "at": 0.0, "vol": 0.45, "out": 4.8},
+    {"f": "sfx_siege.mp3", "at": 5.9, "vol": 0.45, "out": 11.0},
+    {"f": "sfx_sword.mp3", "at": 12.5, "vol": 0.5, "out": 14.0},
+    {"f": "sfx_gate.mp3", "at": 16.0, "vol": 0.5, "out": 20.5},
+    {"f": "sfx_shimmer.mp3", "at": 27.2, "vol": 0.5, "out": 31.0}
+  ],
+  "preview": [3.0, 9.5, 14.0, 18.0, 24.5, 31.5, 36.5]
+}
