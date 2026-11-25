@@ -257,7 +257,7 @@ if __name__ == '__main__':
     cmd = ['ffmpeg', '-y', '-loglevel', 'error', '-i', f'{TMP}/video.mp4', '-i', 'in/vo.mp3', '-i', 'in/music.mp3']
     for x in C['sfx']: cmd += ['-i', 'in/' + x['f']]
     for _ in st: cmd += ['-i', 'in/sfx_stamp.mp3']
-    fc = (f'[1:a]adelay={int(VO*1000)}|{int(VO*1000)},volume=1.0[vo];'
+    fc = (f"[1:a]atempo={C.get('tempo', 1.0)},adelay={int(VO*1000)}|{int(VO*1000)},volume=1.0[vo];"
           f'[2:a]atrim=0:{TOTAL},volume=\'if(lt(t,{END_START}),0.16,0.16+0.30*min(1,(t-{END_START})/0.6))\':eval=frame,afade=t=out:st={TOTAL-1.2}:d=1.2[mu];')
     labels = ['[vo]', '[mu]']; n = 3
     for k, x in enumerate(C['sfx']):
