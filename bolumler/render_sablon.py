@@ -1,6 +1,8 @@
 import numpy as np, math, random, subprocess, os, sys, json
 C = json.load(open('config.json'))
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
+import fx as FX
+FXC = [x.get('fx', {}) for x in C['scenes']]
 W, H, FPS = 1080, 1920, 30
 F = '/usr/share/fonts/truetype/noto/'
 def fnt(n, s): return ImageFont.truetype(F + n, s)
@@ -18,7 +20,7 @@ def ease_back(x):
 scenes = [(x['f'], x['a'], x['b'], tuple(x['d']), x['src']) for x in C['scenes']]
 END_START, TOTAL = C['end_start'], C['total']
 LAST = len(scenes) - 1
-XF = 0.5  # crossfade
+XF = C.get('xf', 0.5)
 SCALE0 = 1.12
 imgs = []
 for f, *_ in scenes:
@@ -36,9 +38,19 @@ def scene_frame(i, t):
     mx, my = (im.width - cw) / 2, (im.height - ch) / 2
     cx = mx + dx * mx * (p - 0.5) * 1.6; cy = my + dy * my * (p - 0.5) * 1.6
     cx = min(max(cx, 0), im.width - cw); cy = min(max(cy, 0), im.height - ch)
-    return im.resize((W, H), Image.BICUBIC, box=(cx, cy, cx + cw, cy + ch))
+    base = im.resize((W, H), Image.BICUBIC, box=(cx, cy, cx + cw, cy + ch))
+    if FXC[i].get('parallax'):
+        k = FXC[i]['parallax']
+        z2 = z * (1.0 + 0.05 * k * p)
+        cw2, ch2 = min(W * SCALE0 / z2, im.width), min(H * SCALE0 / z2, im.height)
+        cx2 = (im.width - cw2) / 2 - dx * 60 * k * (p - 0.5) - (cx - mx) * 0.3; cy2 = (im.height - ch2) / 2 + (cy - my) * 1.15
+        cx2 = min(max(cx2, 0), im.width - cw2); cy2 = min(max(cy2, 0), im.height - ch2)
+        fg = im.resize((W, H), Image.BICUBIC, box=(cx2, cy2, cx2 + cw2, cy2 + ch2))
+        base.paste(fg, (0, 0), PMASK)
+    return FX.apply(base, t, FXC[i])
 
 # ---------- static overlays ----------
+PMASK = Image.fromarray((np.clip((np.arange(H) / H - 0.56) / 0.16, 0, 1) * 255).astype(np.uint8)[:, None].repeat(W, 1))
 yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
 r = np.sqrt(((xx - W / 2) / (W * 0.62)) ** 2 + ((yy - H / 2) / (H * 0.62)) ** 2)
 VIG = np.clip(1.0 - 0.75 * np.clip(r - 0.55, 0, 1) ** 1.6, 0.25, 1.0)
@@ -205,7 +217,8 @@ def frame(t):
     img = scene_frame(idx, t)
     if idx > 0 and t < scenes[idx][1] + XF:
         prev = scene_frame(idx - 1, t)
-        img = Image.blend(prev, img, ease_out((t - scenes[idx][1]) / XF))
+        pp = ease_out((t - scenes[idx][1]) / XF)
+        img = FX.ink_mix(prev, img, pp) if C.get('transition') == 'ink' else Image.blend(prev, img, pp)
     arr = np.asarray(img).astype(np.float32)
     flick = 1.0 + 0.025 * math.sin(t * 9.1) + 0.015 * math.sin(t * 23.7)
     arr = (arr * np.clip(VIG * flick, 0, 1.05)).clip(0, 255)

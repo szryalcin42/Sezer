@@ -1,0 +1,294 @@
+{
+ "out": "HanedanTarihi_OrhanGazi_Bolum3.mp4",
+ "padisah": "ORHAN GAZİ",
+ "bolum": "BÖLÜM 3/5",
+ "seal": "3/5",
+ "vo": 0.6,
+ "end_start": 26.4,
+ "total": 30.0,
+ "accent": [
+  28,
+  52,
+  110
+ ],
+ "seal_rgb": [
+  30,
+  60,
+  125
+ ],
+ "transition": "ink",
+ "xf": 0.7,
+ "scenes": [
+  {
+   "f": "s1.png",
+   "a": 0.0,
+   "b": 4.8,
+   "d": [
+    0,
+    -1
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.0,
+    "smoke": [
+     [
+      0.45,
+      0.24
+     ],
+     [
+      0.66,
+      0.21
+     ],
+     [
+      0.84,
+      0.27
+     ]
+    ],
+    "water": [
+     0.14,
+     0.47
+    ],
+    "clouds": 1,
+    "birds": 3,
+    "embers": 18
+   }
+  },
+  {
+   "f": "s2.png",
+   "a": 4.8,
+   "b": 10.35,
+   "d": [
+    1,
+    0
+   ],
+   "src": "Kaynak: Ioannes Kantakuzenos, Tarih",
+   "fx": {
+    "parallax": 0.6,
+    "water": [
+     0.15,
+     0.3
+    ],
+    "rays": [
+     0.15,
+     -0.05
+    ]
+   }
+  },
+  {
+   "f": "s3.png",
+   "a": 10.35,
+   "b": 14.2,
+   "d": [
+    0,
+    1
+   ],
+   "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân",
+   "fx": {
+    "parallax": 1.0,
+    "water": [
+     0.14,
+     0.3
+    ],
+    "rays": [
+     0.76,
+     0.36
+    ],
+    "birds": 3
+   }
+  },
+  {
+   "f": "s4.png",
+   "a": 14.2,
+   "b": 18.0,
+   "d": [
+    -1,
+    0
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.2,
+    "water": [
+     0.1,
+     0.32
+    ],
+    "clouds": 1,
+    "birds": 4
+   }
+  },
+  {
+   "f": "s5.png",
+   "a": 18.0,
+   "b": 21.45,
+   "d": [
+    0,
+    -1
+   ],
+   "src": "Kaynak: Mustafa Bilge, İlk Osmanlı Medreseleri",
+   "fx": {
+    "parallax": 0.6,
+    "water": [
+     0.72,
+     0.86
+    ],
+    "rays": [
+     0.5,
+     -0.05
+    ],
+    "birds": 5
+   }
+  },
+  {
+   "f": "s6.png",
+   "a": 21.45,
+   "b": 26.4,
+   "d": [
+    1,
+    0
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.0,
+    "water": [
+     0.18,
+     0.62
+    ],
+    "clouds": 1,
+    "birds": 4,
+    "rays": [
+     0.52,
+     0.15
+    ]
+   }
+  }
+ ],
+ "stamps": [
+  [
+   "AÇLIK",
+   2.84,
+   0
+  ],
+  [
+   "KITLIK",
+   8.2,
+   1
+  ],
+  [
+   "1331",
+   9.92,
+   2
+  ],
+  [
+   "AMAN",
+   14.0,
+   3
+  ],
+  [
+   "MEDRESE",
+   19.28,
+   4
+  ],
+  [
+   "İZMİT",
+   22.24,
+   5
+  ]
+ ],
+ "subs": [
+  [
+   0.16,
+   1.76,
+   "Yıllarca süren *kuşatma*,"
+  ],
+  [
+   1.84,
+   3.96,
+   "kılıçla değil, *açlıkla* bitti."
+  ],
+  [
+   4.31,
+   7.56,
+   "Pelekanon yenilgisinden sonra *İznik*'e yardım gelmedi."
+  ],
+  [
+   7.76,
+   9.44,
+   "Şehirde *kıtlık* başladı."
+  ],
+  [
+   9.92,
+   11.52,
+   "*Bin üç yüz otuz bir.*"
+  ],
+  [
+   11.56,
+   13.48,
+   "İznik, *Orhan*'a teslim oldu."
+  ],
+  [
+   13.68,
+   17.36,
+   "Gitmek isteyen halkın, eşyalarıyla *ayrılmasına* izin verildi."
+  ],
+  [
+   17.48,
+   20.56,
+   "Orhan, şehirde *ilk Osmanlı medresesini* kurdurdu."
+  ],
+  [
+   20.95,
+   22.16,
+   "Sıradaki hedef:"
+  ],
+  [
+   22.24,
+   25.2,
+   "*İzmit...*"
+  ]
+ ],
+ "end": {
+  "next": "ORHAN GAZİ · 4/5",
+  "title": "İzmit ve Karesi",
+  "sources": [
+   "Halil İnalcık, Devlet-i Aliyye I",
+   "Ioannes Kantakuzenos, Tarih",
+   "Mustafa Bilge, İlk Osmanlı Medreseleri"
+  ],
+  "note": "İznik, 2 Mart 1331'de teslim oldu."
+ },
+ "sfx": [
+  {
+   "f": "sfx_wind.mp3",
+   "at": 0.2,
+   "vol": 0.4,
+   "out": 4.4
+  },
+  {
+   "f": "sfx_gate.mp3",
+   "at": 10.6,
+   "vol": 0.45,
+   "out": 14.0
+  },
+  {
+   "f": "sfx_horse.mp3",
+   "at": 14.3,
+   "vol": 0.3,
+   "out": 17.8
+  },
+  {
+   "f": "sfx_shimmer.mp3",
+   "at": 21.5,
+   "vol": 0.4,
+   "out": 25.6
+  }
+ ],
+ "preview": [
+  2.5,
+  4.95,
+  7.5,
+  12.0,
+  16.0,
+  19.5,
+  23.5,
+  28.5
+ ]
+}
