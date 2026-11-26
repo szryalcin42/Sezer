@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Akdeniz Bölgesi — kalan 4 günde 600 milyon ₺ ciro hedefi.
+"""Akdeniz Bölgesi — kalan günlerde ciro hedefi reels'i.
 
 9:16 dikey (1080x1920, 30 fps) veri animasyonu reels üretici.
 Kare kare PIL ile çizer, numpy ile müzik üretir, ffmpeg ile MP4'e çevirir.
@@ -8,7 +8,7 @@ Ayrıca hedef tablosunu hedefler.csv olarak yazar.
 Kullanım:  python3 make_ciro_reel.py [çıktı.mp4]
 
 Şube adlarını / personel dağılımını değiştirmek için aşağıdaki
-SUBELER listesini düzenleyin (toplam personel 81 olmalı).
+SUBELER listesini düzenleyin (PERSONEL_TOPLAM ile tutarlı olmalı).
 """
 import csv
 import math
@@ -21,28 +21,30 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 # ------------------------------------------------------------------ veri
-HEDEF = 600_000_000          # kalan ciro hedefi (₺)
+HEDEF = 528_000_000          # kalan ciro hedefi (₺)
 GUN = 4                      # kalan gün
 # (şube adı, personel sayısı)
 SUBELER = [
-    ("Çallı", 5), ("Mevlana", 10), ("Nalçacı", 15), ("Kepez", 13),
-    ("Antalya", 8), ("Ereğli", 5), ("Karaman", 7), ("Isparta", 6),
-    ("Manavgat", 6), ("Alanya", 6),
+    ("Nalçacı", 18), ("Kepez", 12), ("Mevlana", 10), ("Karaman", 9),
+    ("Ereğli", 8), ("Manavgat", 8), ("Antalya", 8),
+    ("Alanya", 7), ("Çallı", 7), ("Isparta", 7),
 ]
 # grafikte büyükten küçüğe sırala (eşitlikte girilen sıra korunur)
 SUBELER = sorted(SUBELER, key=lambda s: -s[1])
 PERSONEL = sum(p for _, p in SUBELER)
-assert PERSONEL == 81, PERSONEL
+PERSONEL_TOPLAM = 94
+assert PERSONEL == PERSONEL_TOPLAM, PERSONEL
 
-GUNLUK = HEDEF / GUN                         # 150 Mn
-KISI_TOPLAM = HEDEF / PERSONEL               # 7,41 Mn
-KISI_GUNLUK = KISI_TOPLAM / GUN              # 1,85 Mn
+GUNLUK = HEDEF / GUN
+KISI_TOPLAM = HEDEF / PERSONEL
+KISI_GUNLUK = KISI_TOPLAM / GUN
+SUBE_ORT = HEDEF / len(SUBELER)
 SUBE_HEDEF = [(ad, p, KISI_TOPLAM * p) for ad, p in SUBELER]  # personel oranlı
 
 # ------------------------------------------------------------------ görsel
 W, H, FPS = 1080, 1920, 30
 HERE = Path(__file__).resolve().parent
-OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "akdeniz_600m_hedef_reel.mp4"
+OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / f"akdeniz_{HEDEF // 1_000_000}m_hedef_reel.mp4"
 
 FD = "/usr/share/fonts/opentype/inter/"
 def F(name, size):
@@ -243,7 +245,7 @@ def sc_hook(img, t, A):
     t0 = S["hook"][0]
     p1 = back_out(prog(t, t0 + 0.2, 0.6))
     text(img, "KALAN", W // 2, 640, F_BOLD(52), SAND, alpha=A * clamp(p1))
-    text(img, "4 GÜN", W // 2, 790, F_BLACK(230), WHITE, alpha=A, scale=max(0.01, p1))
+    text(img, f"{GUN} GÜN", W // 2, 790, F_BLACK(230), WHITE, alpha=A, scale=max(0.01, p1))
     # sayaç
     pc = ease_io(prog(t, t0 + 1.0, 2.6))
     val = HEDEF * pc
@@ -260,7 +262,7 @@ def sc_hook(img, t, A):
 def sc_ozet(img, t, A):
     t0 = S["ozet"][0]
     title(img, "ELİMİZDEKİLER", None, t, t0)
-    tiles = [("10", "ŞUBE", TURQ), ("81", "PERSONEL", SUN), ("4", "GÜN", CORAL)]
+    tiles = [(str(len(SUBELER)), "ŞUBE", TURQ), (str(PERSONEL), "PERSONEL", SUN), (str(GUN), "GÜN", CORAL)]
     for i, (n, lab, col) in enumerate(tiles):
         p = back_out(prog(t, t0 + 0.4 + i * 0.75, 0.55))
         y = 640 + i * 230
@@ -270,15 +272,15 @@ def sc_ozet(img, t, A):
         text(img, n, x0 + 70, y, F_BLACK(140), col, "lm", A * clamp(p))
         text(img, lab, x0 + 330, y, F_BOLD(64), WHITE, "lm", A * clamp(p))
     p = ease_out(prog(t, t0 + 3.4, 0.6))
-    text(img, "600 Mn ₺ ÷ 4 gün", W // 2, 1370, F_BOLD(60), WHITE, alpha=A * p)
+    text(img, f"{mn(HEDEF, 0)} ÷ {GUN} gün", W // 2, 1370, F_BOLD(60), WHITE, alpha=A * p)
     p2 = back_out(prog(t, t0 + 5.6, 0.6))
-    text(img, "= 150 Mn ₺ / gün", W // 2, 1470, F_BLACK(78), SUN, alpha=A * clamp(p2),
+    text(img, f"= {mn(GUNLUK, 0)} / gün", W // 2, 1470, F_BLACK(78), SUN, alpha=A * clamp(p2),
          scale=max(0.01, 0.6 + 0.4 * p2))
 
 
 def sc_gun(img, t, A):
     t0 = S["gun"][0]
-    title(img, "GÜNLERE GÖRE", "her gün eşit pay: 150 Mn ₺", t, t0)
+    title(img, "GÜNLERE GÖRE", f"her gün eşit pay: {mn(GUNLUK, 0)}", t, t0)
     base_y, maxh, bw, gap = 1270, 560, 170, 50
     x_start = (W - (4 * bw + 3 * gap)) / 2
     cum_max = HEDEF
@@ -293,7 +295,7 @@ def sc_gun(img, t, A):
         col = [TURQ, SKY, SUN, CORAL][i]
         rrect(img, (x, base_y - prev - h, x + bw, base_y - prev), 22, col, A * clamp(p * 3))
         text(img, f"{i + 1}. GÜN", x + bw / 2, base_y + 50, F_BOLD(40), WHITE, alpha=A)
-        text(img, "+150", x + bw / 2, base_y - prev - h / 2, F_BLACK(44), NAVY,
+        text(img, f"+{tr(GUNLUK / 1e6)}", x + bw / 2, base_y - prev - h / 2, F_BLACK(44), NAVY,
              alpha=A * clamp(p * 2 - 1))
         text(img, f"Σ {tr((i + 1) * GUNLUK / 1e6)} Mn", x + bw / 2, base_y - prev - h - 34,
              F_BOLD(34), WHITE, alpha=A * clamp(p * 2 - 1))
@@ -302,7 +304,7 @@ def sc_gun(img, t, A):
     bw2 = 820
     rrect(img, (W / 2 - bw2 / 2, 1420, W / 2 + bw2 / 2, 1450), 15, (255, 255, 255), A * 0.15)
     rrect(img, (W / 2 - bw2 / 2, 1420, W / 2 - bw2 / 2 + bw2 * pc, 1450), 15, SUN, A)
-    text(img, f"{tr(HEDEF * pc / 1e6)} / 600 Mn ₺", W // 2, 1510, F_BOLD(48), WHITE,
+    text(img, f"{tr(HEDEF * pc / 1e6)} / {mn(HEDEF, 0)}", W // 2, 1510, F_BOLD(48), WHITE,
          alpha=A * clamp(pc * 5))
 
 
@@ -320,28 +322,28 @@ def sc_sube(img, t, A):
         text(img, f"{p_} kişi", 90, y + 34, F_MED(26), MUTED, "lm", a)
         rrect(img, (x_bar, y - 22, x_bar + bar_w, y + 22), 22, (255, 255, 255), a * 0.08)
         w = bar_w * (v / maxv) * p
-        col = TURQ if p_ >= 10 else SKY if p_ >= 7 else SUN
+        col = TURQ if p_ >= 12 else SKY if p_ >= 9 else SUN
         rrect(img, (x_bar, y - 22, x_bar + w, y + 22), 22, col, A)
         text(img, f"{tr(v / 1e6 * p, 1)} Mn", 1010, y - 8, F_BLACK(36), WHITE, "rm", a)
         text(img, f"{tr(v / GUN / 1e6, 1)} Mn/gün", 1010, y + 28, F_SEMI(26), SAND, "rm", a)
     p = ease_out(prog(t, t0 + 4.5, 0.6))
-    text(img, "ortalama şube: 60 Mn ₺  ·  15 Mn ₺ / gün", W // 2, 1560, F_BOLD(40), SUN,
+    text(img, f"ortalama şube: {mn(SUBE_ORT)}  ·  {mn(SUBE_ORT / GUN)} / gün", W // 2, 1560, F_BOLD(40), SUN,
          alpha=A * p)
 
 
 def sc_kisi(img, t, A):
     t0 = S["kisi"][0]
-    title(img, "KİŞİ BAŞI", "81 kişinin her biri", t, t0)
-    cols, sp, r = 9, 74, 25
+    title(img, "KİŞİ BAŞI", f"{PERSONEL} kişinin her biri", t, t0)
+    cols, sp, r = 10, 66, 22
     gx = (W - (cols - 1) * sp) / 2
-    gy = 620
+    gy = 610
     lit = ease_io(prog(t, t0 + 1.2, 2.4)) * PERSONEL
     d = ImageDraw.Draw(img)
     for k in range(PERSONEL):
         cx = gx + (k % cols) * sp
         cy = gy + (k // cols) * sp
         on = clamp(lit - k)
-        col = tuple(int(a + (b - a) * on) for a, b in zip((40, 70, 95), SUN if k % 9 == 4 else TURQ))
+        col = tuple(int(a + (b - a) * on) for a, b in zip((40, 70, 95), SUN if k % cols in (4, 5) else TURQ))
         rr = r * (0.75 + 0.25 * on)
         # baş + gövde (kişi ikonu)
         d.ellipse((cx - rr * 0.45, cy - rr, cx + rr * 0.45, cy - rr * 0.1), fill=col + (int(255 * A),))
@@ -350,7 +352,7 @@ def sc_kisi(img, t, A):
     p1 = back_out(prog(t, t0 + 3.8, 0.6))
     text(img, f"{tr(KISI_TOPLAM / 1e6, 2)} Mn ₺", W // 2, 1340, F_BLACK(110), SUN,
          alpha=A * clamp(p1), scale=max(0.01, 0.6 + 0.4 * p1))
-    text(img, "4 günlük kişisel hedef", W // 2, 1430, F_SEMI(40), MUTED, alpha=A * clamp(p1))
+    text(img, f"{GUN} günlük kişisel hedef", W // 2, 1430, F_SEMI(40), MUTED, alpha=A * clamp(p1))
     p2 = back_out(prog(t, t0 + 6.6, 0.6))
     rrect(img, (170, 1490, 910, 1600), 55, CORAL, A * clamp(p2))
     text(img, f"{tr(KISI_GUNLUK / 1e6, 2)} Mn ₺ / gün", W // 2, 1545, F_BLACK(60), WHITE,
@@ -360,11 +362,11 @@ def sc_kisi(img, t, A):
 def sc_outro(img, t, A):
     t0 = S["outro"][0]
     p0 = ease_out(prog(t, t0, 0.5))
-    text(img, "4 GÜNDE", W // 2, 470, F_BOLD(60), SAND, alpha=A * p0)
-    text(img, "600 Mn ₺", W // 2, 590, F_BLACK(170), WHITE, alpha=A * p0)
-    rows = [("HER GÜN", "150 Mn ₺", TURQ),
-            ("ŞUBE ORT.", "15 Mn ₺ / gün", SKY),
-            ("HER KİŞİ", "1,85 Mn ₺ / gün", SUN)]
+    text(img, f"{GUN} GÜNDE", W // 2, 470, F_BOLD(60), SAND, alpha=A * p0)
+    text(img, mn(HEDEF, 0), W // 2, 590, F_BLACK(170), WHITE, alpha=A * p0)
+    rows = [("HER GÜN", mn(GUNLUK, 0), TURQ),
+            ("ŞUBE ORT.", f"{mn(SUBE_ORT / GUN)} / gün", SKY),
+            ("HER KİŞİ", f"{mn(KISI_GUNLUK, 2)} / gün", SUN)]
     for i, (k, v, col) in enumerate(rows):
         p = back_out(prog(t, t0 + 0.6 + i * 0.9, 0.55))
         y = 820 + i * 170
@@ -492,7 +494,7 @@ def make_audio(path):
 def write_csv():
     with open(HERE / "hedefler.csv", "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f, delimiter=";")
-        w.writerow(["Kırılım", "Personel", "4 Günlük Hedef (₺)", "Günlük Hedef (₺)"])
+        w.writerow(["Kırılım", "Personel", f"{GUN} Günlük Hedef (₺)", "Günlük Hedef (₺)"])
         w.writerow(["Akdeniz Bölgesi", PERSONEL, tr(HEDEF), tr(GUNLUK)])
         for i in range(GUN):
             w.writerow([f"{i + 1}. Gün", PERSONEL, tr(GUNLUK), tr(GUNLUK)])
