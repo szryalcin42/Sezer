@@ -1,0 +1,272 @@
+{
+ "out": "HanedanTarihi_OrhanGazi_Bolum4.mp4",
+ "padisah": "ORHAN GAZİ",
+ "bolum": "BÖLÜM 4/5",
+ "seal": "4/5",
+ "vo": 0.6,
+ "end_start": 27.0,
+ "total": 30.0,
+ "accent": [
+  28,
+  52,
+  110
+ ],
+ "seal_rgb": [
+  30,
+  60,
+  125
+ ],
+ "transition": "ink",
+ "xf": 0.7,
+ "scenes": [
+  {
+   "f": "s1.png",
+   "a": 0.0,
+   "b": 4.28,
+   "d": [
+    0,
+    -1
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 0.6,
+    "rays": [
+     0.15,
+     0.12
+    ]
+   }
+  },
+  {
+   "f": "s2.png",
+   "a": 4.28,
+   "b": 9.5,
+   "d": [
+    1,
+    0
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.0,
+    "water": [
+     0.18,
+     0.62
+    ],
+    "clouds": 1,
+    "birds": 4
+   }
+  },
+  {
+   "f": "s3.png",
+   "a": 9.5,
+   "b": 15.1,
+   "d": [
+    0,
+    1
+   ],
+   "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân",
+   "fx": {
+    "parallax": 0.6,
+    "rays": [
+     0.5,
+     0.05
+    ]
+   }
+  },
+  {
+   "f": "s4.png",
+   "a": 15.1,
+   "b": 18.38,
+   "d": [
+    -1,
+    0
+   ],
+   "src": "Kaynak: E. Zachariadou, The Emirate of Karasi",
+   "fx": {
+    "parallax": 1.2,
+    "water": [
+     0.15,
+     0.25
+    ],
+    "clouds": 1,
+    "birds": 3
+   }
+  },
+  {
+   "f": "s5.png",
+   "a": 18.38,
+   "b": 25.05,
+   "d": [
+    1,
+    0
+   ],
+   "src": "Kaynak: E. Zachariadou, The Emirate of Karasi",
+   "fx": {
+    "parallax": 0.8,
+    "water": [
+     0.25,
+     0.66
+    ],
+    "clouds": 1,
+    "birds": 5
+   }
+  },
+  {
+   "f": "s6.png",
+   "a": 25.05,
+   "b": 27.0,
+   "d": [
+    0,
+    -1
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.0,
+    "water": [
+     0.25,
+     0.62
+    ],
+    "clouds": 1,
+    "birds": 3,
+    "rays": [
+     0.88,
+     0.28
+    ]
+   }
+  }
+ ],
+ "stamps": [
+  [
+   "YANLIŞ",
+   2.72,
+   0
+  ],
+  [
+   "1337",
+   3.81,
+   1
+  ],
+  [
+   "1345",
+   8.96,
+   2
+  ],
+  [
+   "ORHAN",
+   14.56,
+   3
+  ],
+  [
+   "DONANMA",
+   18.32,
+   4
+  ],
+  [
+   "RUMELİ",
+   25.04,
+   5
+  ]
+ ],
+ "subs": [
+  [
+   0.08,
+   2.48,
+   "Osmanlı sadece *kılıçla* mı büyüdü?"
+  ],
+  [
+   2.72,
+   3.5,
+   "*Hayır.*"
+  ],
+  [
+   3.81,
+   5.0,
+   "*Bin üç yüz otuz yedi.*"
+  ],
+  [
+   5.28,
+   8.64,
+   "Yıllardır kuşatılan *İzmit*, savaşmadan teslim oldu."
+  ],
+  [
+   8.96,
+   10.2,
+   "*Bin üç yüz kırk beş.*"
+  ],
+  [
+   10.48,
+   11.84,
+   "Komşu *Karesi Beyliği*'nde"
+  ],
+  [
+   12.0,
+   14.36,
+   "iki kardeş *taht* için kavgaya tutuştu."
+  ],
+  [
+   14.56,
+   17.76,
+   "*Orhan* araya girdi ve beyliği topraklarına kattı."
+  ],
+  [
+   17.8,
+   21.36,
+   "Karesi'nin *gemicileri* ve komutanları artık Osmanlı'ydı."
+  ],
+  [
+   21.44,
+   24.28,
+   "Önlerinde tek bir engel kaldı: *deniz*."
+  ],
+  [
+   24.63,
+   26.4,
+   "Sırada *Rumeli* var..."
+  ]
+ ],
+ "end": {
+  "next": "ORHAN GAZİ · 5/5",
+  "title": "Rumeli'ye Geçiş",
+  "sources": [
+   "Halil İnalcık, Devlet-i Aliyye I",
+   "Aşıkpaşazade, Tevârîh-i Âl-i Osmân",
+   "E. Zachariadou, The Emirate of Karasi"
+  ],
+  "note": "Karesi'nin katılışı 1345 civarına tarihlenir."
+ },
+ "sfx": [
+  {
+   "f": "sfx_sword.mp3",
+   "at": 0.4,
+   "vol": 0.45,
+   "out": 2.0
+  },
+  {
+   "f": "sfx_gate.mp3",
+   "at": 8.1,
+   "vol": 0.45,
+   "out": 9.4
+  },
+  {
+   "f": "sfx_horse.mp3",
+   "at": 15.2,
+   "vol": 0.35,
+   "out": 18.2
+  },
+  {
+   "f": "sfx_wind.mp3",
+   "at": 25.1,
+   "vol": 0.4,
+   "out": 26.8
+  }
+ ],
+ "preview": [
+  2.0,
+  3.5,
+  4.6,
+  7.5,
+  12.0,
+  16.5,
+  21.0,
+  25.6
+ ]
+}
