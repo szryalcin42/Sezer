@@ -23,12 +23,14 @@ from PIL import Image, ImageDraw, ImageFont
 # ------------------------------------------------------------------ veri
 HEDEF = 600_000_000          # kalan ciro hedefi (₺)
 GUN = 4                      # kalan gün
-# (şube adı, personel sayısı) — gerçek dağılım bilinmediği için örnek.
+# (şube adı, personel sayısı)
 SUBELER = [
-    ("Şube 1", 9), ("Şube 2", 9), ("Şube 3", 9),
-    ("Şube 4", 8), ("Şube 5", 8), ("Şube 6", 8), ("Şube 7", 8), ("Şube 8", 8),
-    ("Şube 9", 7), ("Şube 10", 7),
+    ("Çallı", 5), ("Mevlana", 10), ("Nalçacı", 15), ("Kepez", 13),
+    ("Antalya", 8), ("Ereğli", 5), ("Karaman", 7), ("Isparta", 6),
+    ("Manavgat", 6), ("Alanya", 6),
 ]
+# grafikte büyükten küçüğe sırala (eşitlikte girilen sıra korunur)
+SUBELER = sorted(SUBELER, key=lambda s: -s[1])
 PERSONEL = sum(p for _, p in SUBELER)
 assert PERSONEL == 81, PERSONEL
 
@@ -197,16 +199,34 @@ def title(base, s, sub, t, t0):
 
 
 # ------------------------------------------------------------------ sahneler
-# (başlangıç, bitiş)
-S = {
-    "hook": (0.0, 5.0),
-    "ozet": (5.0, 10.0),
-    "gun": (10.0, 16.5),
-    "sube": (16.5, 24.5),
-    "kisi": (24.5, 30.5),
-    "outro": (30.5, 36.0),
-}
-DUR = 36.0
+# Asgari sahne süreleri (sn). voice/<sıra>.mp3 varsa süre sese göre uzar.
+BASE = [("hook", 5.0), ("ozet", 5.0), ("gun", 6.5), ("sube", 8.0), ("kisi", 6.0), ("outro", 5.5)]
+VOICE_DIR = HERE / "voice"
+VOICE_DELAY = 0.4   # sahne başından sese kadar
+VOICE_TAIL = 0.6    # ses bitince sahnede kalınan süre
+
+
+def clip_len(path):
+    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                        "-of", "csv=p=0", str(path)], capture_output=True, text=True)
+    return float(r.stdout.strip())
+
+
+VOICES = {}  # sahne sırası -> (dosya, süre)
+for _i in range(len(BASE)):
+    _f = VOICE_DIR / f"{_i}.mp3"
+    if _f.exists():
+        VOICES[_i] = (_f, clip_len(_f))
+
+S, _t = {}, 0.0
+for _i, (_name, _d) in enumerate(BASE):
+    if _i in VOICES:
+        _d = max(_d, VOICE_DELAY + VOICES[_i][1] + VOICE_TAIL)
+    if _i == len(BASE) - 1:
+        _d += 1.2  # kapanışta nefes payı
+    S[_name] = (round(_t, 3), round(_t + _d, 3))
+    _t += _d
+DUR = round(_t, 3)
 CUTS = [v[0] for v in S.values()][1:]
 
 
@@ -233,7 +253,7 @@ def sc_hook(img, t, A):
     bw = 760
     rrect(img, (W / 2 - bw / 2, 1240, W / 2 + bw / 2, 1262), 11, (255, 255, 255), A * 0.15)
     rrect(img, (W / 2 - bw / 2, 1240, W / 2 - bw / 2 + bw * pc, 1262), 11, SUN, A)
-    p3 = ease_out(prog(t, t0 + 3.7, 0.6))
+    p3 = ease_out(prog(t, t0 + 4.8, 0.6))
     text(img, "Nasıl yetişir? Bölelim ↓", W // 2, 1380 + 20 * (1 - p3), F_BOLD(52), TURQ, alpha=A * p3)
 
 
@@ -242,16 +262,16 @@ def sc_ozet(img, t, A):
     title(img, "ELİMİZDEKİLER", None, t, t0)
     tiles = [("10", "ŞUBE", TURQ), ("81", "PERSONEL", SUN), ("4", "GÜN", CORAL)]
     for i, (n, lab, col) in enumerate(tiles):
-        p = back_out(prog(t, t0 + 0.4 + i * 0.35, 0.55))
+        p = back_out(prog(t, t0 + 0.4 + i * 0.75, 0.55))
         y = 640 + i * 230
         x0 = 140 + (1 - clamp(p)) * -300
         rrect(img, (x0, y - 95, x0 + 800, y + 95), 36, (255, 255, 255), A * 0.08 * clamp(p))
         rrect(img, (x0, y - 95, x0 + 16, y + 95), 8, col, A * clamp(p))
         text(img, n, x0 + 70, y, F_BLACK(140), col, "lm", A * clamp(p))
         text(img, lab, x0 + 330, y, F_BOLD(64), WHITE, "lm", A * clamp(p))
-    p = ease_out(prog(t, t0 + 1.9, 0.6))
+    p = ease_out(prog(t, t0 + 3.4, 0.6))
     text(img, "600 Mn ₺ ÷ 4 gün", W // 2, 1370, F_BOLD(60), WHITE, alpha=A * p)
-    p2 = back_out(prog(t, t0 + 2.5, 0.6))
+    p2 = back_out(prog(t, t0 + 5.6, 0.6))
     text(img, "= 150 Mn ₺ / gün", W // 2, 1470, F_BLACK(78), SUN, alpha=A * clamp(p2),
          scale=max(0.01, 0.6 + 0.4 * p2))
 
@@ -263,7 +283,7 @@ def sc_gun(img, t, A):
     x_start = (W - (4 * bw + 3 * gap)) / 2
     cum_max = HEDEF
     for i in range(GUN):
-        p = ease_out(prog(t, t0 + 0.6 + i * 0.45, 0.7))
+        p = ease_out(prog(t, t0 + 2.3 + i * 1.5, 0.7))
         x = x_start + i * (bw + gap)
         # basamaklı (şelale) sütun: önceki günlerin toplamı + bu günün payı
         prev = maxh * (i * GUNLUK / cum_max)
@@ -278,7 +298,7 @@ def sc_gun(img, t, A):
         text(img, f"Σ {tr((i + 1) * GUNLUK / 1e6)} Mn", x + bw / 2, base_y - prev - h - 34,
              F_BOLD(34), WHITE, alpha=A * clamp(p * 2 - 1))
     # toplam şerit
-    pc = ease_io(prog(t, t0 + 2.6, 2.4))
+    pc = ease_io(prog(t, t0 + 2.3, 5.2))
     bw2 = 820
     rrect(img, (W / 2 - bw2 / 2, 1420, W / 2 + bw2 / 2, 1450), 15, (255, 255, 255), A * 0.15)
     rrect(img, (W / 2 - bw2 / 2, 1420, W / 2 - bw2 / 2 + bw2 * pc, 1450), 15, SUN, A)
@@ -293,18 +313,18 @@ def sc_sube(img, t, A):
     maxv = max(v for _, _, v in SUBE_HEDEF)
     x_bar, bar_w = 310, 450
     for i, (ad, p_, v) in enumerate(SUBE_HEDEF):
-        p = ease_out(prog(t, t0 + 0.5 + i * 0.16, 0.8))
+        p = ease_out(prog(t, t0 + 0.8 + i * 0.3, 0.8))
         y = y0 + i * rh
         a = A * clamp(p * 2)
         text(img, ad, 90, y, F_BOLD(38), WHITE, "lm", a)
         text(img, f"{p_} kişi", 90, y + 34, F_MED(26), MUTED, "lm", a)
         rrect(img, (x_bar, y - 22, x_bar + bar_w, y + 22), 22, (255, 255, 255), a * 0.08)
         w = bar_w * (v / maxv) * p
-        col = TURQ if p_ == 9 else SKY if p_ == 8 else SUN
+        col = TURQ if p_ >= 10 else SKY if p_ >= 7 else SUN
         rrect(img, (x_bar, y - 22, x_bar + w, y + 22), 22, col, A)
         text(img, f"{tr(v / 1e6 * p, 1)} Mn", 1010, y - 8, F_BLACK(36), WHITE, "rm", a)
         text(img, f"{tr(v / GUN / 1e6, 1)} Mn/gün", 1010, y + 28, F_SEMI(26), SAND, "rm", a)
-    p = ease_out(prog(t, t0 + 3.2, 0.6))
+    p = ease_out(prog(t, t0 + 4.5, 0.6))
     text(img, "ortalama şube: 60 Mn ₺  ·  15 Mn ₺ / gün", W // 2, 1560, F_BOLD(40), SUN,
          alpha=A * p)
 
@@ -315,7 +335,7 @@ def sc_kisi(img, t, A):
     cols, sp, r = 9, 74, 25
     gx = (W - (cols - 1) * sp) / 2
     gy = 620
-    lit = ease_io(prog(t, t0 + 0.5, 1.8)) * PERSONEL
+    lit = ease_io(prog(t, t0 + 1.2, 2.4)) * PERSONEL
     d = ImageDraw.Draw(img)
     for k in range(PERSONEL):
         cx = gx + (k % cols) * sp
@@ -327,11 +347,11 @@ def sc_kisi(img, t, A):
         d.ellipse((cx - rr * 0.45, cy - rr, cx + rr * 0.45, cy - rr * 0.1), fill=col + (int(255 * A),))
         d.pieslice((cx - rr * 0.8, cy - rr * 0.05, cx + rr * 0.8, cy + rr * 1.4), 180, 360,
                    fill=col + (int(255 * A),))
-    p1 = back_out(prog(t, t0 + 2.4, 0.6))
+    p1 = back_out(prog(t, t0 + 3.8, 0.6))
     text(img, f"{tr(KISI_TOPLAM / 1e6, 2)} Mn ₺", W // 2, 1340, F_BLACK(110), SUN,
          alpha=A * clamp(p1), scale=max(0.01, 0.6 + 0.4 * p1))
     text(img, "4 günlük kişisel hedef", W // 2, 1430, F_SEMI(40), MUTED, alpha=A * clamp(p1))
-    p2 = back_out(prog(t, t0 + 3.3, 0.6))
+    p2 = back_out(prog(t, t0 + 6.6, 0.6))
     rrect(img, (170, 1490, 910, 1600), 55, CORAL, A * clamp(p2))
     text(img, f"{tr(KISI_GUNLUK / 1e6, 2)} Mn ₺ / gün", W // 2, 1545, F_BLACK(60), WHITE,
          alpha=A * clamp(p2))
@@ -343,17 +363,17 @@ def sc_outro(img, t, A):
     text(img, "4 GÜNDE", W // 2, 470, F_BOLD(60), SAND, alpha=A * p0)
     text(img, "600 Mn ₺", W // 2, 590, F_BLACK(170), WHITE, alpha=A * p0)
     rows = [("HER GÜN", "150 Mn ₺", TURQ),
-            ("HER ŞUBE", "~15 Mn ₺ / gün", SKY),
+            ("ŞUBE ORT.", "15 Mn ₺ / gün", SKY),
             ("HER KİŞİ", "1,85 Mn ₺ / gün", SUN)]
     for i, (k, v, col) in enumerate(rows):
-        p = back_out(prog(t, t0 + 0.6 + i * 0.4, 0.55))
+        p = back_out(prog(t, t0 + 0.6 + i * 0.9, 0.55))
         y = 820 + i * 170
         x0 = 120 + (1 - clamp(p)) * 200
         a = A * clamp(p)
         rrect(img, (x0, y - 70, x0 + 840, y + 70), 34, (255, 255, 255), a * 0.08)
         text(img, k, x0 + 40, y, F_BOLD(44), col, "lm", a)
         text(img, v, x0 + 800, y, F_BLACK(54), WHITE, "rm", a)
-    p = back_out(prog(t, t0 + 2.3, 0.7))
+    p = back_out(prog(t, t0 + 6.4, 0.7))
     pulse = 1 + 0.03 * math.sin((t - t0) * 7) * clamp(p)
     text(img, "HADİ AKDENİZ!", W // 2, 1400, F_BLACK(104), SUN, alpha=A * clamp(p),
          scale=max(0.01, p * pulse))
@@ -438,6 +458,23 @@ def make_audio(path):
         i0, i1 = int(s * SR), int((s + 0.03) * SR)
         sg = tt[i0:i1] - s
         out[i0:i1] += 0.18 * np.sin(2 * np.pi * 1800 * sg) * np.exp(-sg * 150)
+    # dış ses: müziği konuşma sırasında kıs (ducking) ve sesi ekle
+    voice = np.zeros(n)
+    for i, (f, ln) in VOICES.items():
+        st = S[BASE[i][0]][0] + VOICE_DELAY
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(f), "-f", "s16le", "-ac", "1",
+                              "-ar", str(SR), "-"], capture_output=True).stdout
+        v = np.frombuffer(raw, np.int16).astype(float) / 32768
+        i0 = int(st * SR)
+        v = v[:max(0, n - i0)]
+        voice[i0:i0 + len(v)] += v
+    if VOICES:
+        env = (np.abs(voice) > 0.02).astype(float)
+        k = int(0.25 * SR)
+        env = np.convolve(env, np.ones(k) / k, mode="same")
+        env = np.clip(env * 4, 0, 1)
+        out = out / (np.max(np.abs(out)) + 1e-9) * (1 - 0.6 * env) * 0.55
+        out = out + voice / (np.max(np.abs(voice)) + 1e-9) * 0.9
     # bitiş: fade-out
     fo = int(1.5 * SR)
     out[-fo:] *= np.linspace(1, 0, fo)
