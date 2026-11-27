@@ -120,6 +120,10 @@ def apply(img, t, fx):
     if not fx:
         return img
     arr = np.asarray(img).astype(np.float32)
+    if 'shake' in fx:
+        amp = fx['shake'] * (0.55 + 0.45 * math.sin(t * 1.7))
+        dx = int(amp * math.sin(t * 47.0) + amp * 0.5 * math.sin(t * 83.0)); dy = int(amp * 0.7 * math.sin(t * 59.0 + 1.0))
+        arr = np.roll(np.roll(arr, dx, axis=1), dy, axis=0)
     if 'water' in fx: arr = water(arr, t, fx['water'])
     if 'clouds' in fx: arr = clouds(arr, t)
     if 'smoke' in fx: arr = smoke(arr, t, fx['smoke'])

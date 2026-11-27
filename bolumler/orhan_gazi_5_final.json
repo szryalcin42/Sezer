@@ -1,0 +1,291 @@
+{
+ "out": "HanedanTarihi_OrhanGazi_Bolum5_Final.mp4",
+ "padisah": "ORHAN GAZİ",
+ "bolum": "BÖLÜM 5/5 · FİNAL",
+ "seal": "FİNAL",
+ "vo": 0.6,
+ "end_start": 27.0,
+ "total": 30.0,
+ "accent": [
+  28,
+  52,
+  110
+ ],
+ "seal_rgb": [
+  30,
+  60,
+  125
+ ],
+ "transition": "ink",
+ "xf": 0.7,
+ "scenes": [
+  {
+   "f": "s1.png",
+   "a": 0.0,
+   "b": 4.6,
+   "d": [
+    0,
+    -1
+   ],
+   "src": "Kaynak: Nikephoros Gregoras, Roma Tarihi",
+   "fx": {
+    "shake": 9,
+    "smoke": [
+     [
+      0.3,
+      0.42
+     ],
+     [
+      0.55,
+      0.46
+     ],
+     [
+      0.2,
+      0.56
+     ]
+    ],
+    "water": [
+     0.4,
+     0.82
+    ],
+    "clouds": 1
+   }
+  },
+  {
+   "f": "s2.png",
+   "a": 4.6,
+   "b": 6.84,
+   "d": [
+    0,
+    1
+   ],
+   "src": "Kaynak: Ioannes Kantakuzenos, Tarih",
+   "fx": {
+    "parallax": 0.6,
+    "rays": [
+     0.5,
+     0.1
+    ]
+   }
+  },
+  {
+   "f": "s3.png",
+   "a": 6.84,
+   "b": 11.96,
+   "d": [
+    1,
+    0
+   ],
+   "src": "Kaynak: Ioannes Kantakuzenos, Tarih",
+   "fx": {
+    "parallax": 1.0,
+    "water": [
+     0.15,
+     0.35
+    ],
+    "clouds": 1,
+    "birds": 3
+   }
+  },
+  {
+   "f": "s4.png",
+   "a": 11.96,
+   "b": 19.08,
+   "d": [
+    -1,
+    0
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.0,
+    "smoke": [
+     [
+      0.35,
+      0.68
+     ],
+     [
+      0.62,
+      0.72
+     ]
+    ],
+    "rays": [
+     0.75,
+     0.15
+    ],
+    "water": [
+     0.15,
+     0.3
+    ]
+   }
+  },
+  {
+   "f": "s5.png",
+   "a": 19.08,
+   "b": 21.4,
+   "d": [
+    1,
+    0
+   ],
+   "src": "Kaynak: Halil İnalcık, Devlet-i Aliyye I",
+   "fx": {
+    "parallax": 1.2,
+    "water": [
+     0.15,
+     0.65
+    ],
+    "clouds": 1,
+    "birds": 5
+   }
+  },
+  {
+   "f": "s6.png",
+   "a": 21.4,
+   "b": 27.0,
+   "d": [
+    0,
+    -1
+   ],
+   "src": "Kaynak: Aşıkpaşazade, Tevârîh-i Âl-i Osmân",
+   "fx": {
+    "parallax": 0.6,
+    "embers": 28
+   }
+  }
+ ],
+ "stamps": [
+  [
+   "DEPREM",
+   0.4,
+   0
+  ],
+  [
+   "TAHT",
+   4.64,
+   1
+  ],
+  [
+   "THEODORA",
+   8.0,
+   2
+  ],
+  [
+   "1354",
+   11.36,
+   3
+  ],
+  [
+   "RUMELİ",
+   19.64,
+   4
+  ],
+  [
+   "FİNAL",
+   21.68,
+   5
+  ]
+ ],
+ "subs": [
+  [
+   0.16,
+   1.04,
+   "Bir *deprem*,"
+  ],
+  [
+   1.12,
+   3.68,
+   "*Avrupa*'nın kapısını Osmanlılara açtı."
+  ],
+  [
+   4.08,
+   6.0,
+   "Bizans'ta *taht kavgası* vardı."
+  ],
+  [
+   6.24,
+   9.04,
+   "Orhan, Kantakuzenos'un kızı *Theodora* ile evlendi"
+  ],
+  [
+   9.28,
+   11.04,
+   "ve ona *asker* gönderdi."
+  ],
+  [
+   11.36,
+   12.64,
+   "*Bin üç yüz elli dört.*"
+  ],
+  [
+   12.96,
+   15.44,
+   "Büyük bir deprem *Gelibolu* surlarını yıktı."
+  ],
+  [
+   15.68,
+   18.28,
+   "Orhan'ın oğlu *Süleyman Paşa* şehre yerleşti."
+  ],
+  [
+   18.48,
+   20.56,
+   "Osmanlı artık *Rumeli*'deydi."
+  ],
+  [
+   20.8,
+   23.76,
+   "Orhan Gazi, *Bursa*'da babasının yanına gömüldü."
+  ],
+  [
+   24.28,
+   26.6,
+   "Sırada, *I. Murad* var..."
+  ]
+ ],
+ "end": {
+  "label": "SIRADAKİ PADİŞAH",
+  "next": "I. MURAD · 1/5",
+  "title": "Hüdavendigâr",
+  "sources": [
+   "Ioannes Kantakuzenos, Tarih",
+   "Nikephoros Gregoras, Roma Tarihi",
+   "Halil İnalcık, Devlet-i Aliyye I"
+  ],
+  "note": "Orhan'ın ölümü 1362 civarına tarihlenir."
+ },
+ "sfx": [
+  {
+   "f": "sfx_cav.mp3",
+   "at": 0.2,
+   "vol": 0.5,
+   "out": 3.6
+  },
+  {
+   "f": "sfx_wedding.mp3",
+   "at": 6.9,
+   "vol": 0.4,
+   "out": 11.4
+  },
+  {
+   "f": "sfx_horse.mp3",
+   "at": 16.3,
+   "vol": 0.35,
+   "out": 18.9
+  },
+  {
+   "f": "sfx_night.mp3",
+   "at": 21.5,
+   "vol": 0.45,
+   "out": 26.6
+  }
+ ],
+ "preview": [
+  1.5,
+  3.2,
+  5.6,
+  9.0,
+  14.5,
+  19.6,
+  24.0,
+  28.5
+ ]
+}
