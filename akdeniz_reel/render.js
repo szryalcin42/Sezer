@@ -1,4 +1,5 @@
-// Kullanım: node render.js [cikti.mp4]
+// Kullanım: node render.js [sayfa.html] [ses_klasörü] [cikti.mp4]
+//   varsayılan: reel.html voice akdeniz_cumartesi_reel.mp4
 // reel.html'i 30 fps kare kare çeker, voice/<sahne>.mp3 dış seslerini sahnelere
 // yerleştirir ve 1080x1920 MP4 üretir. Sahne süreleri sese göre uzatılır
 // (animasyon zamanı parça parça doğrusal olarak esnetilir).
@@ -8,8 +9,6 @@ const fs = require('fs');
 const path = require('path');
 
 const FPS = 30;
-// reel.html içindeki tasarım zamanında sahne sınırları (8 sahne)
-const D = [0, 3.3, 7.3, 10.4, 14.1, 18.5, 22.7, 26.3, 30];
 const VOICE_OFFSET = 0.25; // sahne başladıktan sonra sesin gireceği an
 const TAIL = 0.45;          // ses bittikten sonra sahnede kalma
 const END_HOLD = 1.5;       // son sahnede ses bittikten sonra bekleme
@@ -18,11 +17,18 @@ const dur = f => parseFloat(execFileSync('ffprobe', ['-v', 'error', '-show_entri
   'format=duration', '-of', 'csv=p=0', f]).toString());
 
 (async () => {
-  const out = process.argv[2] || path.join(__dirname, 'akdeniz_cumartesi_reel.mp4');
+  const html = path.resolve(__dirname, process.argv[2] || 'reel.html');
+  const vdir = path.resolve(__dirname, process.argv[3] || 'voice');
+  const out = path.resolve(__dirname, process.argv[4] || 'akdeniz_cumartesi_reel.mp4');
+  const browser = await chromium.launch();
+  const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
+  await page.goto('file://' + html);
+  await page.evaluate(() => document.fonts.ready);
+  const D = await page.evaluate(() => window.BOUNDS); // tasarım zamanında sahne sınırları
   const n = D.length - 1;
   const voices = [], R = [0];
   for (let i = 0; i < n; i++) {
-    const f = path.join(__dirname, 'voice', `${i}.mp3`);
+    const f = path.join(vdir, `${i}.mp3`);
     const vd = fs.existsSync(f) ? dur(f) : 0;
     if (vd) voices.push({ f, at: R[i] + VOICE_OFFSET });
     const need = vd ? VOICE_OFFSET + vd + (i === n - 1 ? END_HOLD : TAIL) : 0;
@@ -37,7 +43,7 @@ const dur = f => parseFloat(execFileSync('ffprobe', ['-v', 'error', '-show_entri
   console.log('Sahne başlangıçları (sn):', R.map(x => x.toFixed(2)).join(' '));
 
   // 1) dış ses kanalı
-  const wav = path.join(__dirname, 'voice', '_mix.wav');
+  const wav = path.join(vdir, '_mix.wav');
   const args = ['-y', '-loglevel', 'error'];
   voices.forEach(v => args.push('-i', v.f));
   const fc = voices.map((v, i) => `[${i}:a]aresample=44100,adelay=${Math.round(v.at * 1000)}:all=1[a${i}]`).join(';')
@@ -46,10 +52,6 @@ const dur = f => parseFloat(execFileSync('ffprobe', ['-v', 'error', '-show_entri
   execFileSync('ffmpeg', args);
 
   // 2) görüntü + ses
-  const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
-  await page.goto('file://' + path.join(__dirname, 'reel.html'));
-  await page.evaluate(() => document.fonts.ready);
   const frames = Math.round(total * FPS);
 
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',

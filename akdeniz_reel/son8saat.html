@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:#061a2b;}
+  #stage{position:relative;width:1080px;height:1920px;overflow:hidden;
+    font-family:"Inter","Inter Display",sans-serif;color:#fff;}
+  canvas{position:absolute;left:0;top:0;}
+  .scene{position:absolute;left:0;top:0;width:1080px;height:1920px;opacity:0;
+    display:flex;flex-direction:column;align-items:center;}
+  .kicker{font-size:40px;font-weight:600;letter-spacing:8px;color:#5fd3c6;text-transform:uppercase;}
+  .h1{font-family:"Inter Display","Inter";font-weight:800;font-size:150px;line-height:1.02;text-align:center;letter-spacing:-2px;}
+  .h2{font-weight:700;font-size:64px;text-align:center;line-height:1.15;}
+  .sub{font-size:44px;font-weight:500;color:#b9d4e6;text-align:center;line-height:1.35;}
+  .gold{color:#f5c451;} .teal{color:#5fd3c6;} .red{color:#ff7a6b;}
+  .big{font-family:"Inter Display","Inter";font-weight:900;font-size:280px;line-height:1;letter-spacing:-8px;
+    font-variant-numeric:tabular-nums;}
+  .card{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);border-radius:36px;
+    padding:36px 46px;width:900px;box-sizing:border-box;}
+  .row{display:flex;justify-content:space-between;align-items:baseline;}
+  .lbl{font-size:40px;font-weight:600;color:#b9d4e6;}
+  .val{font-size:72px;font-weight:900;font-variant-numeric:tabular-nums;}
+  .unit{font-size:36px;font-weight:700;color:#b9d4e6;}
+  .track{position:relative;height:70px;width:900px;border-radius:35px;background:rgba(255,122,107,.25);overflow:hidden;}
+  .track>div{position:absolute;left:0;top:0;bottom:0;border-radius:35px;background:linear-gradient(90deg,#5fd3c6,#8ee3a0);}
+  .brand{position:absolute;left:0;right:0;bottom:90px;text-align:center;font-size:34px;font-weight:600;
+    letter-spacing:4px;color:rgba(255,255,255,.55);}
+  #progress{position:absolute;left:0;top:0;height:10px;background:linear-gradient(90deg,#5fd3c6,#f5c451);}
+  .lb{display:flex;align-items:center;height:104px;width:960px;}
+  .lb .n{width:250px;font-size:38px;font-weight:700;}
+  .lb .bw{flex:1;height:46px;border-radius:23px;background:rgba(255,255,255,.07);position:relative;}
+  .lb .bw>div{position:absolute;left:0;top:0;bottom:0;border-radius:23px;background:linear-gradient(90deg,#f5c451,#ff7a6b);}
+  .lb .v{width:260px;text-align:right;font-variant-numeric:tabular-nums;}
+  .lb .v b{display:block;font-size:40px;font-weight:900;}
+  .lb .v span{display:block;font-size:26px;color:#b9d4e6;font-weight:600;}
+  .hours{display:flex;gap:16px;margin-top:70px;}
+  .hr{width:96px;height:150px;border-radius:22px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:44px;}
+  .hr small{font-size:22px;font-weight:600;color:#b9d4e6;margin-top:6px;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="bg" width="1080" height="1920"></canvas>
+  <canvas id="fx" width="1080" height="1920"></canvas>
+
+  <!-- S1: Son 8 saat -->
+  <div class="scene" id="s1" style="padding-top:330px;gap:40px">
+    <div class="kicker" id="s1k">Akdeniz Bölge · Son Durum</div>
+    <div class="h1" id="s1t">SON<br><span class="gold">8 SAAT</span></div>
+    <div class="big" id="s1c" style="position:absolute;top:1390px;left:0;right:0;text-align:center;font-size:150px;letter-spacing:-2px">08:00:00</div>
+  </div>
+
+  <!-- S2: Ciro -->
+  <div class="scene" id="s2" style="padding-top:260px">
+    <div class="kicker">Gerçekleşen Ciro</div>
+    <div class="big teal" id="s2n" style="margin-top:30px">0</div>
+    <div class="h2">MİLYON TL</div>
+    <div style="margin-top:120px" id="s2bar">
+      <div class="row" style="width:900px;margin-bottom:22px"><span class="lbl">Hedef: 400 Milyon TL</span><span class="val teal" style="font-size:60px">%<span id="s2p">0</span></span></div>
+      <div class="track" style="background:rgba(255,255,255,.08)"><div id="s2f"></div></div>
+    </div>
+  </div>
+
+  <!-- S3: Hedefe kalan -->
+  <div class="scene" id="s3" style="padding-top:260px">
+    <div class="kicker" style="color:#ff7a6b">Hedefe Kalan</div>
+    <div class="big red" id="s3n" style="margin-top:30px">0</div>
+    <div class="h2">MİLYON TL</div>
+    <div style="margin-top:120px" id="s3bar">
+      <div class="track"><div id="s3f" style="width:11.85%"></div></div>
+      <div class="row" style="width:900px;margin-top:22px"><span class="lbl teal">Ciro 47,4 Mn</span><span class="lbl red">Kalan 352,6 Mn</span></div>
+    </div>
+  </div>
+
+  <!-- S4: Saatlik -->
+  <div class="scene" id="s4" style="padding-top:230px">
+    <div class="kicker">Saatlik Hedef</div>
+    <div class="sub" id="s4e" style="margin-top:30px;font-size:56px">352,6 Mn ÷ <b class="gold">8 saat</b></div>
+    <div class="big gold" id="s4n" style="margin-top:40px">0</div>
+    <div class="h2">MİLYON TL / SAAT</div>
+    <div class="hours" id="s4h"></div>
+  </div>
+
+  <!-- S5: 10 şube / 100 kişi -->
+  <div class="scene" id="s5" style="padding-top:200px">
+    <div class="kicker">10 Şube · 100 Personel</div>
+    <div class="h2" style="margin-top:20px">Saatlik yük paylaşımı</div>
+    <div style="display:flex;flex-direction:column;gap:40px;margin-top:640px">
+      <div class="card" id="s5c1">
+        <div class="lbl">Şube başı (10 şube)</div>
+        <div class="row" style="margin-top:10px"><span class="val gold"><span id="s5v1">0</span> <span class="unit">Mn TL / saat</span></span></div>
+        <div class="sub" style="text-align:left;font-size:34px;margin-top:6px">8 saatte toplam 35,26 Mn TL</div>
+      </div>
+      <div class="card" id="s5c2">
+        <div class="lbl">Kişi başı (100 personel)</div>
+        <div class="row" style="margin-top:10px"><span class="val gold"><span id="s5v2">0</span> <span class="unit">TL / saat</span></span></div>
+        <div class="sub" style="text-align:left;font-size:34px;margin-top:6px">8 saatte toplam 3,53 Mn TL</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: Şube şube -->
+  <div class="scene" id="s6" style="padding-top:170px">
+    <div class="kicker">Şube Şube Saatlik Hedef</div>
+    <div class="sub" style="margin-top:14px;font-size:36px">Kalan ÷ 8 saat · şube başı 10 kişi</div>
+    <div id="lb" style="margin-top:40px"></div>
+  </div>
+
+  <!-- S7: Kapanış -->
+  <div class="scene" id="s7" style="justify-content:center;gap:40px">
+    <div id="s7cup" style="font-size:240px;line-height:1">🏆</div>
+    <div class="kicker" id="s7k">Emlak Katılım Güvencesiyle</div>
+    <div class="h1" id="s7t" style="font-size:120px">SON<br><span class="gold">8 SAAT</span></div>
+    <div class="sub" id="s7s">Saatte 44,1 Mn TL · Kişi başı 440.750 TL</div>
+    <div class="h2" id="s7q" style="font-size:92px;margin-top:20px">Kazanan<br>kim olacak<span class="gold">?</span></div>
+  </div>
+
+  <div class="brand">AKDENİZ BÖLGE · EMLAK KATILIM</div>
+  <div id="progress"></div>
+</div>
+
+<script>
+const DUR = 32;
+window.BOUNDS = [0, 4, 8.5, 12, 16.5, 22, 28, 32];
+const S = { s1:[0,4.2], s2:[3.8,8.7], s3:[8.3,12.2], s4:[11.8,16.7], s5:[16.3,22.2], s6:[21.8,28.2], s7:[27.8,33] };
+const KALAN = 352599992, CIRO = 47400008, HEDEF = 400e6;
+const SUBE = [ // hedefe kalan (TL) – 10 Akdeniz şubesi, fotoğraftaki tablodan
+  ['Kepez',69000000],['Nalçacı',59700000],['Antalya',43700000],['Mevlana',38800000],['Manavgat',36000000],
+  ['Alanya',25100000],['Isparta',22199992],['Çallı',21200000],['Karaman',20800000],['Ereğli',16100000]];
+
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const lin=(t,a,b)=>clamp((t-a)/(b-a));
+const eOut=x=>1-Math.pow(1-x,3);
+const eOutBack=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2);};
+const eInOut=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const fmt=(n,d=0)=>n.toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const $=id=>document.getElementById(id);
+const bg=$('bg').getContext('2d'), fx=$('fx').getContext('2d');
+
+// dinamik öğeler
+for(let i=1;i<=8;i++) $('s4h').insertAdjacentHTML('beforeend',`<div class="hr" id="h${i}">${i}<small>saat</small></div>`);
+const MAX=SUBE[0][1];
+SUBE.forEach(([n,v],i)=>$('lb').insertAdjacentHTML('beforeend',
+  `<div class="lb" id="r${i}"><div class="n">${n}</div><div class="bw"><div id="rb${i}"></div></div>
+   <div class="v"><b id="rv${i}">0</b><span>kişi ${fmt(v/80)} TL/sa</span></div></div>`));
+
+function sceneAlpha(t,[a,b]){ return Math.min(lin(t,a,a+0.35), 1-lin(t,b-0.35,b)); }
+function pop(el,t,start,dy=60,dur=0.6){
+  const p=lin(t,start,start+dur); const e=eOutBack(p);
+  el.style.opacity=clamp(p*1.6); el.style.transform=`translateY(${(1-e)*dy}px) scale(${0.9+0.1*e})`;
+}
+
+function drawBg(t){
+  const g=bg.createLinearGradient(0,0,0,1920);
+  g.addColorStop(0,'#04131f'); g.addColorStop(.55,'#082a40'); g.addColorStop(1,'#0b4a5e');
+  bg.fillStyle=g; bg.fillRect(0,0,1080,1920);
+  const r=bg.createRadialGradient(540+Math.sin(t*.4)*200,600,50,540,600,900);
+  r.addColorStop(0,'rgba(95,211,198,.18)'); r.addColorStop(1,'rgba(95,211,198,0)');
+  bg.fillStyle=r; bg.fillRect(0,0,1080,1920);
+  for(let k=0;k<4;k++){
+    bg.beginPath(); const base=1650+k*70, amp=22-k*3, sp=.8+k*.3; bg.moveTo(0,1920);
+    for(let x=0;x<=1080;x+=12) bg.lineTo(x, base+Math.sin(x/140+t*sp+k)*amp+Math.sin(x/60-t*1.3)*6);
+    bg.lineTo(1080,1920); bg.closePath(); bg.fillStyle=`rgba(95,211,198,${0.07+k*0.035})`; bg.fill();
+  }
+}
+
+function drawRing(t,alpha){ // S1: kum saati gibi azalan halka
+  if(alpha<=0) return;
+  const cx=540, cy=1080, R=190, p=1-0.0*lin(t,0,4);
+  fx.globalAlpha=alpha; fx.lineCap='round';
+  fx.lineWidth=34; fx.strokeStyle='rgba(255,255,255,.1)';
+  fx.beginPath(); fx.arc(cx,cy,R,0,Math.PI*2); fx.stroke();
+  const prog=eOut(lin(t,0.6,2.2));
+  const gr=fx.createLinearGradient(cx-R,cy-R,cx+R,cy+R); gr.addColorStop(0,'#f5c451'); gr.addColorStop(1,'#ff7a6b');
+  fx.strokeStyle=gr; fx.beginPath(); fx.arc(cx,cy,R,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(prog,0.001)*p); fx.stroke();
+  // saat ibresi
+  const a=-Math.PI/2+t*Math.PI*0.9;
+  fx.strokeStyle='#fff'; fx.lineWidth=12;
+  fx.beginPath(); fx.moveTo(cx,cy); fx.lineTo(cx+Math.cos(a)*(R-70),cy+Math.sin(a)*(R-70)); fx.stroke();
+  fx.fillStyle='#f5c451'; fx.beginPath(); fx.arc(cx,cy,18,0,Math.PI*2); fx.fill();
+  fx.globalAlpha=1;
+}
+
+function person(x,y,s,col){
+  fx.fillStyle=col;
+  fx.beginPath(); fx.arc(x,y-s*0.55,s*0.28,0,Math.PI*2); fx.fill();
+  fx.beginPath(); fx.moveTo(x-s*0.42,y+s*0.45);
+  fx.quadraticCurveTo(x-s*0.42,y-s*0.2,x,y-s*0.2); fx.quadraticCurveTo(x+s*0.42,y-s*0.2,x+s*0.42,y+s*0.45);
+  fx.closePath(); fx.fill();
+}
+function drawTeam(t,alpha){ // S5: 10 sütun = 10 şube, her şubede 10 kişi
+  if(alpha<=0) return;
+  fx.globalAlpha=alpha;
+  const x0=135, y0=440, px=90, py=50;
+  const lit=eOut(lin(t,16.6,18.4))*100;
+  for(let i=0;i<100;i++){
+    const c=Math.floor(i/10), r=i%10, x=x0+c*px, y=y0+r*py;
+    const on=(c*10+r)<lit;
+    person(x,y,42, on ? (c%2?'#5fd3c6':'#f5c451') : 'rgba(255,255,255,.12)');
+  }
+  fx.globalAlpha=1;
+}
+
+function render(t){
+  drawBg(t);
+  fx.clearRect(0,0,1080,1920);
+  const A={}; for(const k in S){ A[k]=clamp(sceneAlpha(t,S[k])); $(k).style.opacity=A[k]; }
+
+  // S1
+  pop($('s1k'),t,0.2); pop($('s1t'),t,0.4,90,0.8); pop($('s1c'),t,1.0);
+  const left=8*3600-Math.max(0,Math.floor((t-1.0)*1.0));
+  const hh=String(Math.floor(left/3600)).padStart(2,'0'), mm=String(Math.floor(left%3600/60)).padStart(2,'0'), ss=String(left%60).padStart(2,'0');
+  $('s1c').textContent=`${hh}:${mm}:${ss}`;
+  drawRing(t,A.s1);
+  // S2
+  const c=eInOut(lin(t,4.1,6.4));
+  $('s2n').textContent=fmt(CIRO/1e6*c,1);
+  pop($('s2bar'),t,5.0);
+  const bp=eOut(lin(t,5.4,7.0));
+  $('s2f').style.width=(11.85*bp)+'%'; $('s2p').textContent=fmt(11.9*bp,1);
+  // S3
+  $('s3n').textContent=fmt(KALAN/1e6*eInOut(lin(t,8.6,10.6)),1);
+  pop($('s3bar'),t,9.4);
+  // S4
+  pop($('s4e'),t,12.1);
+  $('s4n').textContent=fmt(KALAN/8/1e6*eInOut(lin(t,12.6,14.4)),1);
+  for(let i=1;i<=8;i++){ const on=lin(t,13.6+i*0.25,13.8+i*0.25); const el=$('h'+i);
+    el.style.background=on>=1?'linear-gradient(180deg,#f5c451,#e09b2d)':'rgba(255,255,255,.07)';
+    el.style.color=on>=1?'#061a2b':'#fff'; el.style.transform=`scale(${1+0.12*Math.sin(Math.PI*on)})`;
+    el.querySelector('small').style.color=on>=1?'#061a2b':'#b9d4e6'; }
+  // S5
+  drawTeam(t,A.s5);
+  pop($('s5c1'),t,18.4); pop($('s5c2'),t,19.4);
+  $('s5v1').textContent=fmt(KALAN/80/1e6*eOut(lin(t,18.6,20.0)),2);
+  $('s5v2').textContent=fmt(Math.round(KALAN/800*eOut(lin(t,19.6,21.0))/10)*10);
+  // S6
+  SUBE.forEach(([n,v],i)=>{ const st=22.3+i*0.28; pop($('r'+i),t,st,40,0.5);
+    const p=eOut(lin(t,st+0.2,st+1.2));
+    $('rb'+i).style.width=(v/MAX*100*p)+'%'; $('rv'+i).textContent=fmt(v/8/1e6*p,2)+' Mn'; });
+  // S7
+  pop($('s7cup'),t,28.1,120,0.9); pop($('s7k'),t,28.4); pop($('s7t'),t,28.6,90,0.8); pop($('s7s'),t,29.1); pop($('s7q'),t,29.7,80,0.8);
+  if(t>28.1) $('s7cup').style.transform+=` rotate(${Math.sin(t*3)*6}deg)`;
+  if(t>30.5) $('s7q').style.transform+=` scale(${1+0.04*Math.sin((t-30.5)*8)})`;
+  $('progress').style.width=(clamp(t/DUR)*1080)+'px';
+}
+window.render=render; window.DUR=DUR;
+if(!navigator.webdriver){ const st=performance.now(); (function loop(){ render(((performance.now()-st)/1000)%DUR); requestAnimationFrame(loop); })(); }
+</script>
+</body>
+</html>
