@@ -48,8 +48,8 @@
   <!-- S1: Son 8 saat -->
   <div class="scene" id="s1" style="padding-top:330px;gap:40px">
     <div class="kicker" id="s1k">Akdeniz Bölge · Son Durum</div>
-    <div class="h1" id="s1t">SON<br><span class="gold">8 SAAT</span></div>
-    <div class="big" id="s1c" style="position:absolute;top:1390px;left:0;right:0;text-align:center;font-size:150px;letter-spacing:-2px">08:00:00</div>
+    <div class="h1" id="s1t">SON<br><span class="gold"><span class="saat">8</span> SAAT</span></div>
+    <div class="big" id="s1c" style="position:absolute;top:1390px;left:0;right:0;text-align:center;font-size:150px;letter-spacing:-2px"></div>
   </div>
 
   <!-- S2: Ciro -->
@@ -69,15 +69,15 @@
     <div class="big red" id="s3n" style="margin-top:30px">0</div>
     <div class="h2">MİLYON TL</div>
     <div style="margin-top:120px" id="s3bar">
-      <div class="track"><div id="s3f" style="width:11.85%"></div></div>
-      <div class="row" style="width:900px;margin-top:22px"><span class="lbl teal">Ciro 47,4 Mn</span><span class="lbl red">Kalan 352,6 Mn</span></div>
+      <div class="track"><div id="s3f"></div></div>
+      <div class="row" style="width:900px;margin-top:22px"><span class="lbl teal" id="s3l1"></span><span class="lbl red" id="s3l2"></span></div>
     </div>
   </div>
 
   <!-- S4: Saatlik -->
   <div class="scene" id="s4" style="padding-top:230px">
     <div class="kicker">Saatlik Hedef</div>
-    <div class="sub" id="s4e" style="margin-top:30px;font-size:56px">352,6 Mn ÷ <b class="gold">8 saat</b></div>
+    <div class="sub" id="s4e" style="margin-top:30px;font-size:56px"><span id="s4k"></span> Mn ÷ <b class="gold"><span class="saat">8</span> saat</b></div>
     <div class="big gold" id="s4n" style="margin-top:40px">0</div>
     <div class="h2">MİLYON TL / SAAT</div>
     <div class="hours" id="s4h"></div>
@@ -91,12 +91,12 @@
       <div class="card" id="s5c1">
         <div class="lbl">Şube başı (10 şube)</div>
         <div class="row" style="margin-top:10px"><span class="val gold"><span id="s5v1">0</span> <span class="unit">Mn TL / saat</span></span></div>
-        <div class="sub" style="text-align:left;font-size:34px;margin-top:6px">8 saatte toplam 35,26 Mn TL</div>
+        <div class="sub" style="text-align:left;font-size:34px;margin-top:6px"><span class="saat">8</span> saatte toplam <span id="s5t1"></span> Mn TL</div>
       </div>
       <div class="card" id="s5c2">
         <div class="lbl">Kişi başı (100 personel)</div>
         <div class="row" style="margin-top:10px"><span class="val gold"><span id="s5v2">0</span> <span class="unit">TL / saat</span></span></div>
-        <div class="sub" style="text-align:left;font-size:34px;margin-top:6px">8 saatte toplam 3,53 Mn TL</div>
+        <div class="sub" style="text-align:left;font-size:34px;margin-top:6px"><span class="saat">8</span> saatte toplam <span id="s5t2"></span> Mn TL</div>
       </div>
     </div>
   </div>
@@ -104,7 +104,7 @@
   <!-- S6: Şube şube -->
   <div class="scene" id="s6" style="padding-top:170px">
     <div class="kicker">Şube Şube Saatlik Hedef</div>
-    <div class="sub" style="margin-top:14px;font-size:36px">Kalan ÷ 8 saat · şube başı 10 kişi</div>
+    <div class="sub" style="margin-top:14px;font-size:36px">Kalan ÷ <span class="saat">8</span> saat · şube başı 10 kişi</div>
     <div id="lb" style="margin-top:40px"></div>
   </div>
 
@@ -112,8 +112,8 @@
   <div class="scene" id="s7" style="justify-content:center;gap:40px">
     <div id="s7cup" style="font-size:240px;line-height:1">🏆</div>
     <div class="kicker" id="s7k">Emlak Katılım Güvencesiyle</div>
-    <div class="h1" id="s7t" style="font-size:120px">SON<br><span class="gold">8 SAAT</span></div>
-    <div class="sub" id="s7s">Saatte 44,1 Mn TL · Kişi başı 440.750 TL</div>
+    <div class="h1" id="s7t" style="font-size:120px">SON<br><span class="gold"><span class="saat">8</span> SAAT</span></div>
+    <div class="sub" id="s7s"></div>
     <div class="h2" id="s7q" style="font-size:92px;margin-top:20px">Kazanan<br>kim olacak<span class="gold">?</span></div>
   </div>
 
@@ -125,10 +125,17 @@
 const DUR = 32;
 window.BOUNDS = [0, 4, 8.5, 12, 16.5, 22, 28, 32];
 const S = { s1:[0,4.2], s2:[3.8,8.7], s3:[8.3,12.2], s4:[11.8,16.7], s5:[16.3,22.2], s6:[21.8,28.2], s7:[27.8,33] };
-const KALAN = 352599992, CIRO = 47400008, HEDEF = 400e6;
-const SUBE = [ // hedefe kalan (TL) – 10 Akdeniz şubesi, fotoğraftaki tablodan
-  ['Kepez',69000000],['Nalçacı',59700000],['Antalya',43700000],['Mevlana',38800000],['Manavgat',36000000],
-  ['Alanya',25100000],['Isparta',22199992],['Çallı',21200000],['Karaman',20800000],['Ereğli',16100000]];
+// ===== VERİ: güncellemek için yalnızca burayı değiştirin =====
+// 10 Akdeniz şubesi (Denizli ve İzmir Buca tablodaki Genel Toplam'a dahil değil)
+const SAAT = 5;            // kalan saat
+const HEDEF = 400e6;
+const CIRO = 114300013;    // gerçekleşen ciro (Genel Toplam)
+const SUBE = [             // şube adı, hedefe kalan (TL)
+  ['Kepez',57900000],['Nalçacı',41700000],['Antalya',38700000],['Mevlana',37800000],['Manavgat',26050000],
+  ['Çallı',20400000],['Isparta',17649987],['Karaman',16400000],['Ereğli',14600000],['Alanya',14500000]];
+// ==============================================================
+const KALAN = SUBE.reduce((a,[,v])=>a+v,0);
+const PCT = CIRO/HEDEF*100;
 
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const lin=(t,a,b)=>clamp((t-a)/(b-a));
@@ -140,11 +147,17 @@ const $=id=>document.getElementById(id);
 const bg=$('bg').getContext('2d'), fx=$('fx').getContext('2d');
 
 // dinamik öğeler
-for(let i=1;i<=8;i++) $('s4h').insertAdjacentHTML('beforeend',`<div class="hr" id="h${i}">${i}<small>saat</small></div>`);
+document.querySelectorAll('.saat').forEach(e=>e.textContent=SAAT);
+$('s3f').style.width=PCT+'%';
+$('s3l1').textContent='Ciro '+fmt(CIRO/1e6,1)+' Mn'; $('s3l2').textContent='Kalan '+fmt(KALAN/1e6,1)+' Mn';
+$('s4k').textContent=fmt(KALAN/1e6,1);
+$('s5t1').textContent=fmt(KALAN/10/1e6,2); $('s5t2').textContent=fmt(KALAN/100/1e6,2);
+$('s7s').textContent='Saatte '+fmt(KALAN/SAAT/1e6,1)+' Mn TL · Kişi başı '+fmt(KALAN/100/SAAT)+' TL';
+for(let i=1;i<=SAAT;i++) $('s4h').insertAdjacentHTML('beforeend',`<div class="hr" id="h${i}">${i}<small>saat</small></div>`);
 const MAX=SUBE[0][1];
 SUBE.forEach(([n,v],i)=>$('lb').insertAdjacentHTML('beforeend',
   `<div class="lb" id="r${i}"><div class="n">${n}</div><div class="bw"><div id="rb${i}"></div></div>
-   <div class="v"><b id="rv${i}">0</b><span>kişi ${fmt(v/80)} TL/sa</span></div></div>`));
+   <div class="v"><b id="rv${i}">0</b><span>kişi ${fmt(v/10/SAAT)} TL/sa</span></div></div>`));
 
 function sceneAlpha(t,[a,b]){ return Math.min(lin(t,a,a+0.35), 1-lin(t,b-0.35,b)); }
 function pop(el,t,start,dy=60,dur=0.6){
@@ -210,7 +223,7 @@ function render(t){
 
   // S1
   pop($('s1k'),t,0.2); pop($('s1t'),t,0.4,90,0.8); pop($('s1c'),t,1.0);
-  const left=8*3600-Math.max(0,Math.floor((t-1.0)*1.0));
+  const left=SAAT*3600-Math.max(0,Math.floor((t-1.0)*1.0));
   const hh=String(Math.floor(left/3600)).padStart(2,'0'), mm=String(Math.floor(left%3600/60)).padStart(2,'0'), ss=String(left%60).padStart(2,'0');
   $('s1c').textContent=`${hh}:${mm}:${ss}`;
   drawRing(t,A.s1);
@@ -219,26 +232,26 @@ function render(t){
   $('s2n').textContent=fmt(CIRO/1e6*c,1);
   pop($('s2bar'),t,5.0);
   const bp=eOut(lin(t,5.4,7.0));
-  $('s2f').style.width=(11.85*bp)+'%'; $('s2p').textContent=fmt(11.9*bp,1);
+  $('s2f').style.width=(PCT*bp)+'%'; $('s2p').textContent=fmt(PCT*bp,1);
   // S3
   $('s3n').textContent=fmt(KALAN/1e6*eInOut(lin(t,8.6,10.6)),1);
   pop($('s3bar'),t,9.4);
   // S4
   pop($('s4e'),t,12.1);
-  $('s4n').textContent=fmt(KALAN/8/1e6*eInOut(lin(t,12.6,14.4)),1);
-  for(let i=1;i<=8;i++){ const on=lin(t,13.6+i*0.25,13.8+i*0.25); const el=$('h'+i);
+  $('s4n').textContent=fmt(KALAN/SAAT/1e6*eInOut(lin(t,12.6,14.4)),1);
+  for(let i=1;i<=SAAT;i++){ const on=lin(t,13.6+i*0.25,13.8+i*0.25); const el=$('h'+i);
     el.style.background=on>=1?'linear-gradient(180deg,#f5c451,#e09b2d)':'rgba(255,255,255,.07)';
     el.style.color=on>=1?'#061a2b':'#fff'; el.style.transform=`scale(${1+0.12*Math.sin(Math.PI*on)})`;
     el.querySelector('small').style.color=on>=1?'#061a2b':'#b9d4e6'; }
   // S5
   drawTeam(t,A.s5);
   pop($('s5c1'),t,18.4); pop($('s5c2'),t,19.4);
-  $('s5v1').textContent=fmt(KALAN/80/1e6*eOut(lin(t,18.6,20.0)),2);
-  $('s5v2').textContent=fmt(Math.round(KALAN/800*eOut(lin(t,19.6,21.0))/10)*10);
+  $('s5v1').textContent=fmt(KALAN/10/SAAT/1e6*eOut(lin(t,18.6,20.0)),2);
+  $('s5v2').textContent=fmt(Math.round(KALAN/100/SAAT*eOut(lin(t,19.6,21.0))/10)*10);
   // S6
   SUBE.forEach(([n,v],i)=>{ const st=22.3+i*0.28; pop($('r'+i),t,st,40,0.5);
     const p=eOut(lin(t,st+0.2,st+1.2));
-    $('rb'+i).style.width=(v/MAX*100*p)+'%'; $('rv'+i).textContent=fmt(v/8/1e6*p,2)+' Mn'; });
+    $('rb'+i).style.width=(v/MAX*100*p)+'%'; $('rv'+i).textContent=fmt(v/SAAT/1e6*p,2)+' Mn'; });
   // S7
   pop($('s7cup'),t,28.1,120,0.9); pop($('s7k'),t,28.4); pop($('s7t'),t,28.6,90,0.8); pop($('s7s'),t,29.1); pop($('s7q'),t,29.7,80,0.8);
   if(t>28.1) $('s7cup').style.transform+=` rotate(${Math.sin(t*3)*6}deg)`;
