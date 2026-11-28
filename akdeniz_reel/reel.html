@@ -106,15 +106,24 @@
     <div class="h2 teal" id="s7cta" style="font-size:70px">Hadi Akdeniz! 💪</div>
   </div>
 
+  <!-- S8: Şampiyonlar Ligi final haftası -->
+  <div class="scene" id="s8" style="justify-content:center;gap:40px">
+    <div id="s8cup" style="font-size:260px;line-height:1">🏆</div>
+    <div class="kicker" id="s8k">Şampiyonlar Ligi</div>
+    <div class="h1" id="s8t" style="font-size:120px">FİNAL<br><span class="gold">HAFTASI</span></div>
+    <div class="sub" id="s8s">İşte karşılaşmalar</div>
+    <div class="h2" id="s8q" style="font-size:92px;margin-top:30px">Kazanan<br>kim olacak<span class="gold">?</span></div>
+  </div>
+
   <div class="brand">AKDENİZ BÖLGE · EMLAK KATILIM</div>
   <div id="progress"></div>
 </div>
 
 <script>
-const DUR = 26;
+const DUR = 30;
 // scene windows [start, end]
 const S = {
-  s1:[0,3.4], s2:[3.2,7.4], s3:[7.2,10.6], s4:[10.4,14.2], s5:[14.0,18.6], s6:[18.4,22.8], s7:[22.6,26.2]
+  s1:[0,3.4], s2:[3.2,7.4], s3:[7.2,10.6], s4:[10.4,14.2], s5:[14.0,18.6], s6:[18.4,22.8], s7:[22.6,26.4], s8:[26.2,31]
 };
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const lin=(t,a,b)=>clamp((t-a)/(b-a));
@@ -237,6 +246,11 @@ function render(t){
   $('s6v2').textContent=fmt(4*b2);  $('s6b2').style.width=(b2*100)+'%';
   // S7
   pop($('s7k'),t,22.8); pop($('s7t'),t,23.1,90,0.8); pop($('s7c'),t,23.7); pop($('s7cta'),t,24.4);
+  // S8
+  pop($('s8cup'),t,26.4,120,0.9); pop($('s8k'),t,26.8); pop($('s8t'),t,27.0,90,0.8); pop($('s8s'),t,27.5);
+  pop($('s8q'),t,28.2,80,0.8);
+  if(t>26.4){ $('s8cup').style.transform+=` rotate(${Math.sin(t*3)*6}deg)`; }
+  if(t>29.0){ $('s8q').style.transform+=` scale(${1+0.04*Math.sin((t-29)*8)})`; }
   $('progress').style.width=(clamp(t/DUR)*1080)+'px';
 }
 window.render=render; window.DUR=DUR;
